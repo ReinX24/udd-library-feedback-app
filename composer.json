@@ -1,0 +1,18 @@
+{
+    "name": "reinx/feedback_app",
+    "description": "Feedback app using PHP",
+    "type": "project",
+    "license": "GNU",
+    "autoload": {
+        "psr-4": {
+            "classes\\": "src/classes"
+        }
+    },
+    "authors": [
+        {
+            "name": "Rein",
+            "email": "reinX244@gmail.com"
+        }
+    ],
+    "require": {}
+}

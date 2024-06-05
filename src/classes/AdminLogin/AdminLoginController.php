@@ -9,11 +9,13 @@ class AdminLoginController
 
     private string $username;
     private string $password;
+    private mixed $storedPassword;
 
-    public function __construct(string $username, string $password)
+    public function __construct(string $username, string $password, mixed $storedPassword)
     {
         $this->username = $username;
         $this->password = $password;
+        $this->storedPassword = $storedPassword;
     }
 
     public function validateInputs(): array
@@ -28,13 +30,21 @@ class AdminLoginController
             $errors["emptyPasswordError"] = "Password is empty.";
         }
 
-        // TODO: check if the passwords are the same
+        if ($this->checkPassword($this->password, $this->storedPassword)) {
+            $errors["passwordMismatchError"] = "Wrong password!";
+        }
 
         return $errors;
     }
 
-    public function checkPasswords(string $inputPassword, string $storedPassword)
+    public function checkPassword(string $inputPassword, mixed $storedPassword): bool
     {
-        return password_verify($inputPassword, $storedPassword);
+        if ($storedPassword) {
+            $storedPassword = $storedPassword["password"];
+        } else {
+            $storedPassword = ""; // if a password is not found
+        }
+
+        return !empty($inputPassword) && !password_verify($inputPassword, $storedPassword);
     }
 }

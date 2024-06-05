@@ -21,14 +21,25 @@ if (isset($_POST["login"])) {
     $database = new DatabaseConnect();
     $pdo = $database->connectDatabase();
 
-    // TODO: fix this tomorrow
     $adminModel = new AdminLoginModel($pdo);
 
     $storedPassword = $adminModel->getAdminPassword($name);
-    echo $storedPassword;
-    exit();
 
-    $adminController = new AdminLoginController($name, $password);
+    $adminController = new AdminLoginController($name, $password, $storedPassword);
 
     $errors = $adminController->validateInputs();
+
+    $adminLoginView = new AdminLoginView($errors);
+
+    session_start();
+
+    if ($adminLoginView->errorsExist()) {
+        // TODO: add errors to our admin_login_form
+        $_SESSION["errors"] = $errors;
+        header("Location: ../admin_login_form.php");
+    } else {
+        echo "Login successful";
+    }
+} else {
+    header("Location: ../index.php");
 }

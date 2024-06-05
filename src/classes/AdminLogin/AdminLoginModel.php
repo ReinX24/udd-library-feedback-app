@@ -11,14 +11,14 @@ class AdminLoginModel
 
     public function __construct($pdo)
     {
-        $this->$pdo = $pdo;
+        $this->pdo = $pdo;
     }
 
-    public function getAdminPassword($name)
+    public function getAdminPassword(string $name)
     {
         $getSql =
             "SELECT
-                *
+                password
             FROM
                 admin_accounts
             WHERE
@@ -27,7 +27,30 @@ class AdminLoginModel
 
         $statement = $this->pdo->prepare($getSql);
 
-        $statement->bindValue($name);
+        $statement->bindValue(":name", $name);
+
+        $statement->execute();
+
+        return $statement->fetch();
+    }
+
+    public function getAdminCredentials(string $name, string $password)
+    {
+        $getSql =
+            "SELECT
+                *
+            FROM
+                admin_accounts
+            WHERE
+                username = :name
+            AND
+                password = :password";
+
+
+        $statement = $this->pdo->prepare($getSql);
+
+        $statement->bindValue(":name", $name);
+        $statement->bindValue(":password", $password);
 
         $statement->execute();
 

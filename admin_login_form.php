@@ -4,8 +4,11 @@ session_start();
 
 $currentPage = "adminLoginForm";
 
-$emptyUsername = $_SESSION["emptyUsernameError"] ?? "";
-$invalidCredentials = $_SESSION["invalidCredentialsError"] ?? "";
+$emptyUsername = $_SESSION["errors"]["emptyUsernameError"] ?? "";
+$emptyPassword = $_SESSION["errors"]["emptyPasswordError"] ?? "";
+$wrongPassword = $_SESSION["errors"]["passwordMismatchError"] ?? "";
+
+var_dump($_SESSION);
 
 session_destroy();
 unset($_SESSION);
@@ -22,18 +25,24 @@ unset($_SESSION);
             <input type="text" name="name" class="form-control">
         </div>
 
+        <?php if ($emptyUsername) : ?>
+            <div class="alert alert-danger">
+                <?= $emptyUsername; ?>
+            </div>
+        <?php endif; ?>
+
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input type="password" name="password" class="form-control">
         </div>
 
-        <?php if ($emptyUsername) : ?>
+        <?php if ($emptyPassword) : ?>
             <div class="alert alert-danger">
-                <?= $emptyUsername; ?>
+                <?= $emptyPassword; ?>
             </div>
-        <?php elseif ($invalidCredentials) : ?>
+        <?php elseif ($wrongPassword) : ?>
             <div class="alert alert-danger">
-                <?= $invalidCredentials; ?>
+                <?= $wrongPassword; ?>
             </div>
         <?php endif; ?>
 

@@ -32,4 +32,9 @@ class AdminLoginController
 
         return $errors;
     }
+
+    public function checkPasswords(string $inputPassword, string $storedPassword)
+    {
+        return password_verify($inputPassword, $storedPassword);
+    }
 }

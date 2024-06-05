@@ -13,11 +13,12 @@ if (isset($_POST["submit"])) {
     $name = $_POST["name"];
     $feedbackText = $_POST["feedbackText"];
 
-    if (empty($name)) {
-        $name = "Anonymous";
-    }
+    $database = new DatabaseConnect();
+    $pdo = $database->connectDatabase();
 
-    $feedbackController = new FeedbackController($feedbackText);
+    $feedbackController = new FeedbackController($name, $feedbackText);
+
+    $name = $feedbackController->checkAnonymous();
 
     $errors = $feedbackController->validateInputs();
 
@@ -29,9 +30,6 @@ if (isset($_POST["submit"])) {
         $_SESSION["errors"] = $errors;
     } else {
         $_SESSION["successMessage"] = "Thank you for your feedback!";
-
-        $database = new DatabaseConnect();
-        $pdo = $database->connectDatabase();
 
         $feedbackModel = new FeedbackModel($pdo);
         $feedbackModel->insertFeedbackData($name, $feedbackText);

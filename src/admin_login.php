@@ -34,11 +34,11 @@ if (isset($_POST["login"])) {
     session_start();
 
     if ($adminLoginView->errorsExist()) {
-        // TODO: add errors to our admin_login_form
         $_SESSION["errors"] = $errors;
         header("Location: ../admin_login_form.php");
     } else {
-        echo "Login successful";
+        $_SESSION["isLoggedIn"] = true;
+        header("Location: admin_panel.php");
     }
 } else {
     header("Location: ../index.php");

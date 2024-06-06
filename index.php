@@ -33,5 +33,4 @@ $currentPage = "index";
     </div>
 </div>
 
-
 <?php require_once "src/includes/footer.inc.php"; ?>

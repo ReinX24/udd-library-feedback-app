@@ -31,4 +31,23 @@ class AdminPanelModel
 
         return $statement->fetchAll();
     }
+
+    public function getSingleFeedback(int $userId)
+    {
+        $getSingleFeedback =
+            "SELECT
+                *
+            FROM
+                feedback
+            WHERE
+                id = :userId";
+
+        $statement = $this->pdo->prepare($getSingleFeedback);
+
+        $statement->bindValue(":userId", $userId);
+
+        $statement->execute();
+
+        return $statement->fetch();
+    }
 }

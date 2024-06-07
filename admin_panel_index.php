@@ -33,7 +33,7 @@ if ($_SESSION["isLoggedIn"]) {
                     <td>
                         <form action="src/admin_panel.php" method="POST">
                             <input type="hidden" name="getDetails" value="true">
-                            <input type="hidden" name="id" value="<?= $feedback["id"]; ?>">
+                            <input type="hidden" name="feedbackId" value="<?= $feedback["id"]; ?>">
                             <button type="submit" class="btn btn-primary">Details</button>
                         </form>
                     </td>

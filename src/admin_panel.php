@@ -20,8 +20,14 @@ $adminPanelModel = new AdminPanelModel($pdo);
 
 if ($_SESSION["isLoggedIn"] && isset($_POST["getDetails"])) {
 
-    // TODO: get a single record from our database
+    $feedbackId = (int) $_POST["feedbackId"];
+    $singleFeedback = $adminPanelModel->getSingleFeedback($feedbackId);
 
+    $name = $singleFeedback["name"];
+    $feedbackText = $singleFeedback["feedback"];
+    $createdAtDate = $singleFeedback["created_at"];
+
+    header("Location: ../admin_panel_feedback_info.php?name=$name&feedback=$feedbackText&createdAt=$createdAtDate");
 } elseif ($_SESSION["isLoggedIn"]) {
 
     $allFeedback = $adminPanelModel->getAllFeedback();

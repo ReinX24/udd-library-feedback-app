@@ -3,7 +3,7 @@
 session_start();
 
 if ($_SESSION["isLoggedIn"]) {
-    $currentPage = "admin_feedback_info";
+    $currentPage = "adminFeedbackInfo";
 
     // echo "<pre>";
     // var_dump($_SESSION);
@@ -23,9 +23,10 @@ if ($_SESSION["isLoggedIn"]) {
     </div>
     <div class="d-flex gap-2 mt-4">
         <form action="delete" method="POST">
+            <!-- TODO: finish delete functionality -->
             <a href="" class="btn btn-danger">Delete</a>
         </form>
-        <a href="src/admin_panel.php" class="btn btn-secondary">Return</a>
+        <a href="src/admin_panel.php?page=index" class="btn btn-secondary">Return</a>
     </div>
 </div>
 

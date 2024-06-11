@@ -37,7 +37,7 @@ unset($_SESSION);
             </div>
         <?php endif; ?>
 
-        <button type="submit" name="submit" value="submit" class="btn btn-primary btn-lg">Submit</button>
+        <button type="submit" name="feedback_submit" value="submit" class="btn btn-primary btn-lg">Submit</button>
     </form>
 </div>
 

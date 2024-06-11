@@ -32,14 +32,18 @@ if ($_SESSION["isLoggedIn"] && isset($_POST["getDetails"])) {
     unset($_SESSION);
     session_destroy();
     header("Location: ../index.php");
-} elseif ($_SESSION["isLoggedIn"] && isset($_POST["search_feedback_text"])) {
-    // TODO: use adminPanelModel to get feedback text with similar text
-    $_SESSION["matchedFeedback"] = $adminPanelModel->getTextMatchFeedback($_POST["search_text"]);
+} elseif ($_SESSION["isLoggedIn"] && $_GET["page"] == "admin_add") {
+    // TODO: get current admin account usernames
+    header("Location: ../add_admin.php");
+} elseif ($_SESSION["isLoggedIn"] && $_GET["page"] == "search") {
+    $_SESSION["matchedFeedback"] = $adminPanelModel->getTextMatchFeedback($_GET["search_text"] ?? "");
 
     // echo "<pre>";
     // var_dump($_SESSION);
     // echo "</pre>";
-} elseif ($_SESSION["isLoggedIn"]) {
+
+    header("Location: ../admin_search.php?search_text=" . $_GET["search_text"]);
+} elseif ($_SESSION["isLoggedIn"] && $_GET["page"] == "index") {
 
     $allFeedback = $adminPanelModel->getAllFeedback();
 

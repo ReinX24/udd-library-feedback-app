@@ -9,7 +9,7 @@ use classes\Feedback\FeedbackView;
 use classes\Feedback\FeedbackController;
 use classes\Database\DatabaseConnect;
 
-if (isset($_POST["submit"])) {
+if (isset($_POST["feedback_submit"])) {
     $name = $_POST["name"];
     $feedbackText = $_POST["feedbackText"];
 
@@ -36,6 +36,10 @@ if (isset($_POST["submit"])) {
     }
 
     header("Location: ../feedback_form.php");
+} elseif ($_GET["page"] == "feedback_form") {
+    header("Location: ../feedback_form.php");
+} elseif ($_GET["page"] == "admin_login") {
+    header("Location: ../admin_login_form.php");
 } else {
     header("Location: ../index.php");
 }

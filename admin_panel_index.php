@@ -28,7 +28,7 @@ if ($_SESSION["isLoggedIn"]) {
             <?php foreach ($allFeedback as $feedback) : ?>
                 <tr>
                     <td><?= $feedback["name"]; ?></td>
-                    <td><?= substr($feedback["feedback"], 0, 20) . "..."; ?></td>
+                    <td><?= strlen($feedback["feedback"]) > 20 ? substr($feedback["feedback"], 0, 20) . "..." : $feedback["feedback"]; ?></td>
                     <td><?= $feedback["created_at"]; ?></td>
                     <td>
                         <form action="src/admin_panel.php" method="POST">

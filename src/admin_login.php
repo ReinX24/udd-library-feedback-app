@@ -13,7 +13,6 @@ use classes\Database\DatabaseConnect;
 
 require_once "bootstrap.php";
 
-// TODO: finish creating admin login functionality
 if (isset($_POST["login"])) {
     $name = $_POST["name"];
     $password = $_POST["password"];
@@ -38,7 +37,7 @@ if (isset($_POST["login"])) {
         header("Location: ../admin_login_form.php");
     } else {
         $_SESSION["isLoggedIn"] = true;
-        header("Location: admin_panel.php");
+        header("Location: admin_panel.php?page=index");
     }
 } else {
     header("Location: ../index.php");

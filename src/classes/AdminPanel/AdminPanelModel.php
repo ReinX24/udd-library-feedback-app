@@ -61,7 +61,10 @@ class AdminPanelModel
             WHERE
                 feedback
             LIKE
-                :feedback_text";
+                :feedback_text
+            ORDER BY
+                created_at
+            DESC";
 
         $statement = $this->pdo->prepare($text_match_sql);
 

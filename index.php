@@ -19,12 +19,12 @@ $currentPage = "index";
             Any feedback is appreciated!
         </p>
         <div class="d-inline-flex gap-2 mb-5">
-            <a href="feedback_form.php">
+            <a href="src/feedback.php?page=feedback_form">
                 <button class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button">
                     Submit Feedback
                 </button>
             </a>
-            <a href="admin_login_form.php">
+            <a href="src/feedback.php?page=admin_login">
                 <button class="btn btn-outline-secondary btn-lg px-4 rounded-pill" type="button">
                     Admin Login
                 </button>

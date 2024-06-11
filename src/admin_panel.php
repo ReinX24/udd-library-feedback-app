@@ -28,6 +28,17 @@ if ($_SESSION["isLoggedIn"] && isset($_POST["getDetails"])) {
     $createdAtDate = $singleFeedback["created_at"];
 
     header("Location: ../admin_panel_feedback_info.php?name=$name&feedback=$feedbackText&createdAt=$createdAtDate");
+} elseif ($_SESSION["isLoggedIn"] && isset($_POST["logout"])) {
+    unset($_SESSION);
+    session_destroy();
+    header("Location: ../index.php");
+} elseif ($_SESSION["isLoggedIn"] && isset($_POST["search_feedback_text"])) {
+    // TODO: use adminPanelModel to get feedback text with similar text
+    $_SESSION["matchedFeedback"] = $adminPanelModel->getTextMatchFeedback($_POST["search_text"]);
+
+    // echo "<pre>";
+    // var_dump($_SESSION);
+    // echo "</pre>";
 } elseif ($_SESSION["isLoggedIn"]) {
 
     $allFeedback = $adminPanelModel->getAllFeedback();
@@ -35,5 +46,5 @@ if ($_SESSION["isLoggedIn"] && isset($_POST["getDetails"])) {
     $_SESSION["allFeedback"] = $allFeedback;
     header("Location: ../admin_panel_index.php");
 } else {
-    header("Location: index.php");
+    header("Location: ../index.php");
 }

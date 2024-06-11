@@ -32,7 +32,7 @@ class AdminPanelModel
         return $statement->fetchAll();
     }
 
-    public function getSingleFeedback(int $userId)
+    public function getSingleFeedback(int $user_id)
     {
         $getSingleFeedback =
             "SELECT
@@ -44,10 +44,31 @@ class AdminPanelModel
 
         $statement = $this->pdo->prepare($getSingleFeedback);
 
-        $statement->bindValue(":userId", $userId);
+        $statement->bindValue(":userId", $user_id);
 
         $statement->execute();
 
         return $statement->fetch();
+    }
+
+    public function getTextMatchFeedback(string $match_string)
+    {
+        $text_match_sql =
+            "SELECT
+                *
+            FROM
+                feedback
+            WHERE
+                feedback
+            LIKE
+                :feedback_text";
+
+        $statement = $this->pdo->prepare($text_match_sql);
+
+        $statement->bindValue(":feedback_text", "%$match_string%");
+
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
 }

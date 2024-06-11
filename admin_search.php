@@ -4,8 +4,8 @@ session_start();
 
 if ($_SESSION["isLoggedIn"]) {
     // Get all feedback texts from latest to oldest
-    $currentPage = "adminIndex";
-    $allFeedback = $_SESSION["allFeedback"];
+    $currentPage = "adminSearch";
+    $matchedFeedback = $_SESSION["matchedFeedback"];
 } else {
     header("Location: index.php");
 }
@@ -15,7 +15,14 @@ if ($_SESSION["isLoggedIn"]) {
 <?php require_once "src/includes/header_admin.inc.php"; ?>
 
 <div class="container mt-4">
-    <h1>Admin Panel</h1>
+    <form action="src/admin_panel.php" method="POST">
+        <input type="hidden" name="search_feedback_text" value="true">
+
+        <div class="d-flex gap-2 justify-content-center">
+            <input type="text" name="search_text" class="form-control w-50" placeholder="Search feedback text">
+            <button type="submit" class="btn btn-primary">Search text</button>
+        </div>
+    </form>
 
     <table class="table mt-4">
         <thead>

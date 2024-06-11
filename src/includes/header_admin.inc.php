@@ -20,17 +20,17 @@
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav me-auto mb-2 mb-md-0">
                         <li class="nav-item">
-                            <a class="nav-link <?= $currentPage == "admin_index" ? "active" : ""; ?>" href="admin_panel_index.php">Home</a>
+                            <a class="nav-link <?= $currentPage == "adminIndex" ? "active" : ""; ?>" href="admin_panel_index.php">Home</a>
                         </li>
                         <li>
-                            <a class="nav-link <?= $currentPage == "" ? "active" : ""; ?>" href="">Search</a>
+                            <a class="nav-link <?= $currentPage == "adminSearch" ? "active" : ""; ?>" href="admin_search.php">Search</a>
                         </li>
                         <li>
-                            <a class="nav-link <?= $currentPage == "" ? "active" : ""; ?>" href="">Add Admin Account</a>
+                            <a class="nav-link <?= $currentPage == "adminAdd" ? "active" : ""; ?>" href="">Add Admin Account</a>
                         </li>
                     </ul>
-                    <form method="" action="POST">
-                        <button type="submit" name="submit" value="submit" class="btn btn-primary">Logout</button>
+                    <form action="admin_logout.php" method="POST">
+                        <button type="submit" name="submit" class="btn btn-primary">Logout</button>
                     </form>
                 </div>
             </div>

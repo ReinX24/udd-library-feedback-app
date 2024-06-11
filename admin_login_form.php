@@ -8,7 +8,7 @@ $emptyUsername = $_SESSION["errors"]["emptyUsernameError"] ?? "";
 $emptyPassword = $_SESSION["errors"]["emptyPasswordError"] ?? "";
 $wrongPassword = $_SESSION["errors"]["passwordMismatchError"] ?? "";
 
-var_dump($_SESSION);
+// var_dump($_SESSION);
 
 session_destroy();
 unset($_SESSION);

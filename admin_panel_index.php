@@ -28,7 +28,7 @@ if ($_SESSION["isLoggedIn"]) {
                         Search Feedback
                     </button>
                 </a>
-                <a href="src/admin_panel.php?page=admin_add">
+                <a href="src/admin_panel.php?page=admin_accounts">
                     <button class="btn btn-outline-secondary btn-lg px-4 rounded-pill" type="button">
                         Add Admin Account
                     </button>

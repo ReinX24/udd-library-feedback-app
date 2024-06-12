@@ -5,8 +5,8 @@ declare(strict_types=1);
 require_once "bootstrap.php";
 
 use classes\AdminPanel\AdminPanelModel;
-// use classes\AdminPanel\AdminPanelView;
-// use classes\AdminPanel\AdminPanelController;
+use classes\AdminPanel\AdminPanelView;
+use classes\AdminPanel\AdminPanelController;
 use classes\Database\DatabaseConnect;
 
 session_start();
@@ -32,12 +32,31 @@ if ($_SESSION["isLoggedIn"] && isset($_POST["getDetails"])) {
     unset($_SESSION);
     session_destroy();
     header("Location: ../index.php");
-} elseif ($_SESSION["isLoggedIn"] && $_GET["page"] == "admin_add") {
-    // TODO: get current admin account usernames
+} elseif ($_SESSION["isLoggedIn"] && isset($_GET["page"]) && $_GET["page"] == "admin_accounts") {
     $adminUsernames = $adminPanelModel->getAllAdminUsernames();
     $_SESSION["adminUsernames"] = $adminUsernames;
-    header("Location: ../add_admin.php");
-} elseif ($_SESSION["isLoggedIn"] && $_GET["page"] == "search") {
+    header("Location: ../admin_accounts.php");
+} elseif ($_SESSION["isLoggedIn"] && isset($_POST["add_admin"])) {
+    // TODO: finish add_admin validation using controller
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    $repeatPassword = $_POST["username"];
+
+    $adminPanelController = new AdminPanelController($username, $password, $repeatPassword);
+
+    $errors = $adminPanelController->validateInputs();
+
+    $adminPanelView = new AdminPanelView($errors);
+
+    if ($adminPanelView->errorsExist()) {
+        $_SESSION["errors"] = $errors;
+    } else {
+        $_SESSION["successMessage"] = "Admin account created!";
+        // $adminPanelModel->insertAdminAccount($username, $password);
+    }
+
+    header("Location: ../add_admin_account.php");
+} elseif ($_SESSION["isLoggedIn"] && isset($_GET["page"]) && $_GET["page"] == "search") {
     $_SESSION["matchedFeedback"] = $adminPanelModel->getTextMatchFeedback($_GET["search_text"] ?? "");
 
     // echo "<pre>";
@@ -45,8 +64,7 @@ if ($_SESSION["isLoggedIn"] && isset($_POST["getDetails"])) {
     // echo "</pre>";
 
     header("Location: ../admin_search.php?search_text=" . $_GET["search_text"]);
-} elseif ($_SESSION["isLoggedIn"] && $_GET["page"] == "index") {
-
+} elseif ($_SESSION["isLoggedIn"] && isset($_GET["page"]) && $_GET["page"] == "index") {
     // $allFeedback = $adminPanelModel->getAllFeedback();
 
     // $_SESSION["allFeedback"] = $allFeedback;

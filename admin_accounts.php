@@ -11,12 +11,10 @@ if ($_SESSION["isLoggedIn"]) {
 
 ?>
 
-
 <?php require_once "src/includes/header_admin.inc.php"; ?>
 
 <div class="container mt-4">
     <h1>Admin Accounts</h1>
-    <!-- TODO: go to admin account creation page -->
     <a href="add_admin_account.php" class="btn btn-primary btn-lg">
         Add Account
     </a>

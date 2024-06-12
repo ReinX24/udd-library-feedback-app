@@ -26,7 +26,7 @@
                             <a class="nav-link <?= $currentPage == "adminSearch" ? "active" : ""; ?>" href="src/admin_panel.php?page=search">Search</a>
                         </li>
                         <li>
-                            <a class="nav-link <?= $currentPage == "adminAdd" ? "active" : ""; ?>" href="src/admin_panel.php?page=admin_add">Add Admin Account</a>
+                            <a class="nav-link <?= $currentPage == "adminAdd" ? "active" : ""; ?>" href="src/admin_panel.php?page=admin_accounts">Admin Accounts</a>
                         </li>
                     </ul>
                     <form action="admin_logout.php" method="POST">

@@ -75,7 +75,7 @@ class AdminPanelModel
         return $statement->fetchAll();
     }
 
-    function getAllAdminUsernames()
+    public function getAllAdminUsernames()
     {
         $getUsernames =
             "SELECT
@@ -88,5 +88,9 @@ class AdminPanelModel
         $statement->execute();
 
         return $statement->fetchAll();
+    }
+
+    public function insertAdminAccount(string $username, string $password)
+    {
     }
 }

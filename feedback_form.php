@@ -14,7 +14,7 @@ unset($_SESSION);
 
 <?php require_once "src/includes/header.inc.php"; ?>
 
-<div class="container mt-3">
+<div class="container mt-4">
     <h1>Submit Feedback</h1>
     <form action="src/feedback.php" method="POST">
         <div class="mb-3">

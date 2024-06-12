@@ -4,6 +4,7 @@ session_start();
 
 if ($_SESSION["isLoggedIn"]) {
     $currentPage = "adminAdd";
+    $adminUsernames = $_SESSION["adminUsernames"];
 } else {
     header("Location: index.php");
 }
@@ -12,5 +13,27 @@ if ($_SESSION["isLoggedIn"]) {
 
 
 <?php require_once "src/includes/header_admin.inc.php"; ?>
-<!-- TODO: add table showing current admin accounts -->
+
+<div class="container mt-4">
+    <h1>Admin Accounts</h1>
+    <!-- TODO: go to admin account creation page -->
+    <a href="add_admin_account.php" class="btn btn-primary btn-lg">
+        Add Account
+    </a>
+    <table class="table table-bordered mt-4">
+        <thead>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+        </thead>
+        <tbody>
+            <?php foreach ($adminUsernames as $name) : ?>
+                <tr>
+                    <td><?= $name["id"]; ?></td>
+                    <td><?= $name["username"]; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
 <?php require_once "src/includes/footer.inc.php"; ?>

@@ -51,9 +51,9 @@ class AdminPanelModel
         return $statement->fetch();
     }
 
-    public function getTextMatchFeedback(string $match_string)
+    public function getTextMatchFeedback(string $matchString)
     {
-        $text_match_sql =
+        $textMatch =
             "SELECT
                 *
             FROM
@@ -66,9 +66,24 @@ class AdminPanelModel
                 created_at
             DESC";
 
-        $statement = $this->pdo->prepare($text_match_sql);
+        $statement = $this->pdo->prepare($textMatch);
 
-        $statement->bindValue(":feedback_text", "%$match_string%");
+        $statement->bindValue(":feedback_text", "%$matchString%");
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
+    function getAllAdminUsernames()
+    {
+        $getUsernames =
+            "SELECT
+                id, username
+            FROM
+                admin_accounts";
+
+        $statement = $this->pdo->prepare($getUsernames);
 
         $statement->execute();
 

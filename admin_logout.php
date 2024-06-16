@@ -1,17 +1,13 @@
 <?php
 
+session_start();
+
 if ($_SESSION["isLoggedIn"]) {
     // Get all feedback texts from latest to oldest
     $currentPage = "admin_logout";
 } else {
     header("Location: index.php");
 }
-
-// session_start();
-
-// echo "<pre>";
-// var_dump($_SESSION);
-// echo "</pre>";
 
 ?>
 
@@ -25,7 +21,7 @@ if ($_SESSION["isLoggedIn"]) {
                 <input type="hidden" name="logout" value="true">
                 <button type="submit" class="btn btn-danger">Logout</button>
             </form>
-            <a href="src/admin_panel.php" class="btn btn-secondary">Cancel</a>
+            <a href="src/admin_panel.php?page=index" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>

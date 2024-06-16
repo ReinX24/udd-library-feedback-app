@@ -26,7 +26,7 @@ if ($_SESSION["isLoggedIn"]) {
             <!-- TODO: finish delete functionality -->
             <a href="" class="btn btn-danger">Delete</a>
         </form>
-        <a href="src/admin_panel.php?page=index" class="btn btn-secondary">Return</a>
+        <!-- <a href="src/admin_panel.php?page=search" class="btn btn-secondary">Return</a> -->
     </div>
 </div>
 

@@ -3,9 +3,7 @@
 session_start();
 
 if ($_SESSION["isLoggedIn"]) {
-    // Get all feedback texts from latest to oldest
     $currentPage = "adminIndex";
-    // $allFeedback = $_SESSION["allFeedback"];
 } else {
     header("Location: index.php");
 }

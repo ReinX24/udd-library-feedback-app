@@ -18,9 +18,25 @@ $pdo = $database->connectDatabase();
 // Get all feedback texts from latest to oldest
 $adminPanelModel = new AdminPanelModel($pdo);
 
-if ($_SESSION["isLoggedIn"] && isset($_POST["getDetails"])) {
+if ($_SESSION["isLoggedIn"] && $_SERVER["REQUEST_METHOD"] == "GET") {
+    if ($_GET["getDetails"] && $_GET["feedbackId"]) {
+        $feedbackId = (int) $_GET["feedbackId"];
+        $singleFeedback = $adminPanelModel->getSingleFeedback($feedbackId);
 
-    $feedbackId = (int) $_POST["feedbackId"];
+        $name = $singleFeedback["name"];
+        $feedbackText = $singleFeedback["feedback"];
+        $createdAtDate = $singleFeedback["created_at"];
+
+        header("Location: ../admin_panel_feedback_info.php?name=$name&feedback=$feedbackText&createdAt=$createdAtDate");
+    } elseif ($_GET["page"] == "admin_accounts") {
+        $adminUsernames = $adminPanelModel->getAllAdminUsernames();
+        $_SESSION["adminUsernames"] = $adminUsernames;
+        header("Location: ../admin_accounts.php");
+    }
+}
+
+if ($_SESSION["isLoggedIn"] && isset($_GET) && isset($_GET["getDetails"]) && isset($_GET["feedbackId"])) {
+    $feedbackId = (int) $_GET["feedbackId"];
     $singleFeedback = $adminPanelModel->getSingleFeedback($feedbackId);
 
     $name = $singleFeedback["name"];
@@ -29,8 +45,9 @@ if ($_SESSION["isLoggedIn"] && isset($_POST["getDetails"])) {
 
     header("Location: ../admin_panel_feedback_info.php?name=$name&feedback=$feedbackText&createdAt=$createdAtDate");
 } elseif ($_SESSION["isLoggedIn"] && isset($_POST["logout"])) {
-    unset($_SESSION);
+    session_unset();
     session_destroy();
+
     header("Location: ../index.php");
 } elseif ($_SESSION["isLoggedIn"] && isset($_GET["page"]) && $_GET["page"] == "admin_accounts") {
     $adminUsernames = $adminPanelModel->getAllAdminUsernames();

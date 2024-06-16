@@ -37,11 +37,7 @@ if ($_SESSION["isLoggedIn"]) {
                     <td><?= substr($feedback["feedback"], 0, 20) . "..."; ?></td>
                     <td><?= $feedback["created_at"]; ?></td>
                     <td>
-                        <form action="src/admin_panel.php" method="POST">
-                            <input type="hidden" name="getDetails" value="true">
-                            <input type="hidden" name="feedbackId" value="<?= $feedback["id"]; ?>">
-                            <button type="submit" class="btn btn-primary">Details</button>
-                        </form>
+                        <a href="src/admin_panel.php?getDetails=true&feedbackId=<?= $feedback["id"]; ?>" target="_blank" class="btn btn-primary" target="_blank">Details</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

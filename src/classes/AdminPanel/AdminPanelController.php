@@ -33,6 +33,10 @@ class AdminPanelController
             $errors["emptyRepeatPassword"] = "Repeat password is required.";
         }
 
+        if ($this->password !== $this->repeatPassword && !empty($this->password) && !empty($this->repeatPassword)) {
+            $errors["passwordsMismatch"] = "Passwords are not the same.";
+        }
+
         return $errors;
     }
 }

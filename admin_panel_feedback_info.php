@@ -5,8 +5,12 @@ session_start();
 if ($_SESSION["isLoggedIn"]) {
     $currentPage = "adminFeedbackInfo";
 
+    $id = $_GET["id"];
+    $name = $_GET["name"];
+    $feedback = $_GET["feedback"];
+    $createdAtDate = $_GET["createdAt"];
     // echo "<pre>";
-    // var_dump($_SESSION);
+    // var_dump($_GET);
     // echo "</pre>";
 } else {
     header("Location: index.php");
@@ -18,17 +22,15 @@ if ($_SESSION["isLoggedIn"]) {
 
 <div class="container mt-4">
     <h1><?= $_GET["name"]; ?></h1>
+    <p><strong>Created At: </strong><?= $createdAtDate ?></p>
     <div class="form-floating">
         <textarea class="form-control" style="height: 12rem;" disabled><?= $_GET["feedback"]; ?></textarea>
     </div>
     <div class="d-flex gap-2 mt-4">
         <form action="delete" method="POST">
-            <!-- TODO: finish delete functionality -->
-            <a href="" class="btn btn-danger">Delete</a>
+            <a href="admin_delete_feedback.php?id=<?= $id; ?>&name=<?= $name; ?>&feedback=<?= $feedback; ?>&createdAt=<?= $createdAtDate ?>" class="btn btn-danger">Delete</a>
         </form>
-        <!-- <a href="src/admin_panel.php?page=search" class="btn btn-secondary">Return</a> -->
     </div>
 </div>
-
 
 <?php require_once "src/includes/footer.inc.php"; ?>

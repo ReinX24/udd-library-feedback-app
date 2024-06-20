@@ -92,5 +92,17 @@ class AdminPanelModel
 
     public function insertAdminAccount(string $username, string $password)
     {
+        $insertAdmin =
+            "INSERT INTO
+                admin_accounts (username, password)
+            VALUES
+                (:username, :password)";
+
+        $statement = $this->pdo->prepare($insertAdmin);
+
+        $statement->bindValue(":username", $username);
+        $statement->bindValue(":password", password_hash($password, PASSWORD_DEFAULT));
+
+        $statement->execute();
     }
 }

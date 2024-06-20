@@ -39,11 +39,12 @@ if ($_SESSION["isLoggedIn"] && isset($_GET) && isset($_GET["getDetails"]) && iss
     $feedbackId = (int) $_GET["feedbackId"];
     $singleFeedback = $adminPanelModel->getSingleFeedback($feedbackId);
 
+    $id = $singleFeedback["id"];
     $name = $singleFeedback["name"];
     $feedbackText = $singleFeedback["feedback"];
     $createdAtDate = $singleFeedback["created_at"];
 
-    header("Location: ../admin_panel_feedback_info.php?name=$name&feedback=$feedbackText&createdAt=$createdAtDate");
+    header("Location: ../admin_panel_feedback_info.php?id=$id&name=$name&feedback=$feedbackText&createdAt=$createdAtDate");
 } elseif ($_SESSION["isLoggedIn"] && isset($_POST["logout"])) {
     session_unset();
     session_destroy();
@@ -54,10 +55,9 @@ if ($_SESSION["isLoggedIn"] && isset($_GET) && isset($_GET["getDetails"]) && iss
     $_SESSION["adminUsernames"] = $adminUsernames;
     header("Location: ../admin_accounts.php");
 } elseif ($_SESSION["isLoggedIn"] && isset($_POST["add_admin"])) {
-    // TODO: finish add_admin validation using controller
     $username = $_POST["username"];
     $password = $_POST["password"];
-    $repeatPassword = $_POST["username"];
+    $repeatPassword = $_POST["repeatPassword"];
 
     $adminPanelController = new AdminPanelController($username, $password, $repeatPassword);
 
@@ -69,7 +69,7 @@ if ($_SESSION["isLoggedIn"] && isset($_GET) && isset($_GET["getDetails"]) && iss
         $_SESSION["errors"] = $errors;
     } else {
         $_SESSION["successMessage"] = "Admin account created!";
-        // $adminPanelModel->insertAdminAccount($username, $password);
+        $adminPanelModel->insertAdminAccount($username, $password);
     }
 
     header("Location: ../add_admin_account.php");

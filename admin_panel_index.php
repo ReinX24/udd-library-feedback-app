@@ -34,32 +34,6 @@ if ($_SESSION["isLoggedIn"]) {
             </div>
         </div>
     </div>
-
-    <!-- <h1>Admin Panel</h1>
-    <table class="table mt-4">
-        <thead>
-            <th scope="col">Name</th>
-            <th scope="col">Feedback</th>
-            <th scope="col">Created At</th>
-            <th scope="col"></th>
-        </thead>
-        <tbody>
-            <?php foreach ($allFeedback as $feedback) : ?>
-                <tr>
-                    <td><?= $feedback["name"]; ?></td>
-                    <td><?= strlen($feedback["feedback"]) > 20 ? substr($feedback["feedback"], 0, 20) . "..." : $feedback["feedback"]; ?></td>
-                    <td><?= $feedback["created_at"]; ?></td>
-                    <td>
-                        <form action="src/admin_panel.php" method="POST">
-                            <input type="hidden" name="getDetails" value="true">
-                            <input type="hidden" name="feedbackId" value="<?= $feedback["id"]; ?>">
-                            <button type="submit" class="btn btn-primary">Details</button>
-                        </form>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table> -->
 </div>
 
 <?php require_once "src/includes/footer.inc.php"; ?>

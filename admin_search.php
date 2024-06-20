@@ -21,6 +21,9 @@ if ($_SESSION["isLoggedIn"]) {
             <input type="text" name="search_text" class="form-control w-50" placeholder="Search feedback text" value="<?= $_GET["search_text"] ?? ""; ?>">
             <button type="submit" class="btn btn-primary">Search text</button>
         </div>
+        <!-- TODO: search by month -->
+        <!-- TODO: search by year -->
+        <!-- TODO: search by day -->
     </form>
 
     <table class="table mt-4">

@@ -1,7 +1,12 @@
 <?php
 session_start();
 
-if ($_SESSION["isLoggedIn"]) {
+if ($_SESSION["isLoggedIn"] && $_SERVER["REQUEST_METHOD"] == "GET") {
+    $id = $_GET["id"];
+    $name = $_GET["name"];
+    $feedback = $_GET["feedback"];
+    $createdAtDate = $_GET["createdAt"];
+
     // echo "<pre>";
     // var_dump($_GET);
     // echo "</pre>";
@@ -16,13 +21,14 @@ if ($_SESSION["isLoggedIn"]) {
 <div class="container mt-4">
     <h1>Are you sure you want to delete this entry?</h1>
     <hr>
-    <h4><?= $_GET["name"]; ?></h4>
+    <h4><?= $name; ?></h4>
+    <p><strong>Created At: </strong><?= $createdAtDate ?></p>
     <div class="form-floating">
-        <textarea class="form-control" style="height: 12rem;" disabled><?= $_GET["feedback"]; ?></textarea>
+        <textarea class="form-control" style="height: 12rem;" disabled><?= $feedback; ?></textarea>
     </div>
 
-    <!-- TODO: finish delete functionality -->
-    <form action="" method="POST" class="mt-3">
+    <form action="src/admin_panel.php" method="POST" class="mt-3">
+        <input type="hidden" name="deletePost">
         <button type="submit" class="btn btn-danger">Delete</button>
     </form>
 </div>

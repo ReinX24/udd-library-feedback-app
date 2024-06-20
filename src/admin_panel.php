@@ -86,6 +86,11 @@ if ($_SESSION["isLoggedIn"] && isset($_GET) && isset($_GET["getDetails"]) && iss
 
     // $_SESSION["allFeedback"] = $allFeedback;
     header("Location: ../admin_panel_index.php");
+} elseif ($_SESSION["isLoggedIn"] && isset($_POST["deletePost"])) {
+    // TODO: finish delete functionality
+
+    // Close the window after deleting the user
+    echo "<script>window.close()</script>";
 } else {
     header("Location: ../index.php");
 }

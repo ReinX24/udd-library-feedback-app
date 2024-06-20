@@ -105,4 +105,9 @@ class AdminPanelModel
 
         $statement->execute();
     }
+
+    public function deleteFeedbackRecord()
+    {
+        // TODO: finish this delete function
+    }
 }

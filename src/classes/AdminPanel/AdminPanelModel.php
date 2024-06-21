@@ -108,6 +108,18 @@ class AdminPanelModel
 
     public function deleteFeedbackRecord()
     {
-        // TODO: finish this delete function
+        $id = $_POST["id"];
+
+        $deleteFeedback =
+            "DELETE FROM
+                feedback
+            WHERE
+                id = :id";
+
+        $statement = $this->pdo->prepare($deleteFeedback);
+
+        $statement->bindValue(":id", $id);
+
+        $statement->execute();
     }
 }

@@ -29,6 +29,7 @@ if ($_SESSION["isLoggedIn"] && $_SERVER["REQUEST_METHOD"] == "GET") {
 
     <form action="src/admin_panel.php" method="POST" class="mt-3">
         <input type="hidden" name="deletePost">
+        <input type="hidden" name="id" value="<?= $id; ?>">
         <button type="submit" class="btn btn-danger">Delete</button>
     </form>
 </div>

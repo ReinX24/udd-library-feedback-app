@@ -43,29 +43,46 @@ if ($_SESSION["isLoggedIn"] && $_SERVER["REQUEST_METHOD"] == "GET") {
         header("Location: ../admin_accounts.php");
     } elseif ($pageRequest == "search") {
         // Go to search page
-
         $_SESSION["matchedFeedback"] = $adminPanelModel->getTextMatchFeedback($_GET["search_text"] ?? "");
 
-        if (isset($_GET["search_text"])) {
+        // Searches by text
+        if (isset($_GET["search_text"]) && !empty($_GET["search_text"])) {
             $_SESSION["matchedFeedback"] = $adminPanelModel->getTextMatchFeedback($_GET["search_text"] ?? "");
             header("Location: ../admin_search.php?search_text=" . $_GET["search_text"]);
-        } elseif (isset($_GET["search_month_and_year"])) {
-            var_dump($_GET["search_month_and_year"]);
-            // TODO: find feedback by month and year
+            exit;
+        }
+
+        // Search by month and year
+        if (isset($_GET["search_month_and_year"]) && !empty($_GET["search_month_and_year"])) {
+            $_SESSION["matchedFeedback"] = $adminPanelModel->getMonthAndYearMatchFeedback($_GET["search_month_and_year"] ?? "");
+            header("Location: ../admin_search.php?search_month_and_year=" . $_GET["search_month_and_year"] ?? "");
+            exit;
+        }
+
+        // Search by exact date
+        if (isset($_GET["search_date"]) && !empty($_GET["search_date"])) {
+            $_SESSION["matchedFeedback"] = $adminPanelModel->getDateFeedack($_GET["search_date"] ?? "");
+            header("Location: ../admin_search.php?search_date=" . $_GET["search_date"] ?? "");
             exit;
         }
 
         header("Location: ../admin_search.php");
     }
+} else {
+    header("Location: ../index.php");
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
     if ($_SESSION["isLoggedIn"] && isset($_POST["logout"])) {
         session_unset();
         session_destroy();
 
         header("Location: ../index.php");
-    } elseif ($_SESSION["isLoggedIn"] && isset($_POST["add_admin"])) {
+        exit;
+    }
+
+    if ($_SESSION["isLoggedIn"] && isset($_POST["add_admin"])) {
         $username = $_POST["username"];
         $password = $_POST["password"];
         $repeatPassword = $_POST["repeatPassword"];
@@ -84,12 +101,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         header("Location: ../add_admin_account.php");
-    } elseif ($_SESSION["isLoggedIn"] && isset($_POST["deletePost"])) {
+        exit;
+    }
+
+    if ($_SESSION["isLoggedIn"] && isset($_POST["deletePost"])) {
         $adminPanelModel->deleteFeedbackRecord();
 
         // Go back to the search page
         header("Location: admin_panel.php?page=search");
+        exit;
     }
+} else {
+    header("Location: ../index.php");
 }
 
 exit; // terminate script here

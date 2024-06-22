@@ -75,6 +75,63 @@ class AdminPanelModel
         return $statement->fetchAll();
     }
 
+    public function getMonthAndYearMatchFeedback(string $monthYearString)
+    {
+        $dateMatch =
+            "SELECT
+                *
+            FROM
+                feedback
+            WHERE
+                YEAR(created_at) = :yearMatch
+            AND
+                MONTH(created_at) = :monthMatch
+            ORDER BY
+                created_at
+            DESC";
+
+        $monthMatch = date("m", strtotime($monthYearString));
+        $yearMatch = date("Y", strtotime($monthYearString));
+
+        $statement = $this->pdo->prepare($dateMatch);
+
+        $statement->bindValue(":yearMatch", $yearMatch);
+        $statement->bindValue(":monthMatch", $monthMatch);
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
+    public function getDateFeedack(string $dateString)
+    {
+        $getDate =
+            "SELECT
+                *
+            FROM
+                feedback
+            WHERE
+                YEAR(created_at) = :yearMatch
+            AND
+                MONTH(created_at) = :monthMatch
+            AND
+                DAY(created_at) = :dayMatch";
+
+        $yearMatch = date("Y", strtotime($dateString));
+        $monthMatch = date("m", strtotime($dateString));
+        $dayMatch = date("d", strtotime($dateString));
+
+        $statement = $this->pdo->prepare($getDate);
+
+        $statement->bindValue(":yearMatch", $yearMatch);
+        $statement->bindValue(":monthMatch", $monthMatch);
+        $statement->bindValue(":dayMatch", $dayMatch);
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
     public function getAllAdminUsernames()
     {
         $getUsernames =

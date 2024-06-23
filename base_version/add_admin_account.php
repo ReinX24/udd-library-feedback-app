@@ -28,7 +28,7 @@ if ($_SESSION["isLoggedIn"]) {
     <form action="src/admin_panel.php" method="POST">
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
-            <input type="text" name="username" class="form-control">
+            <input type="text" name="username" class="form-control" value="<?= $_GET["username"] ?? "" ?>">
             <p class="text-danger"><?= $emptyUsernameError; ?></p>
         </div>
         <div class="mb-3">

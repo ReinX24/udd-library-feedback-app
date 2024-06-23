@@ -12,14 +12,28 @@ class FeedbackController
     public static function index(Router $router)
     {
         $router->renderView(
-            "feedback/index"
+            "feedback/index",
+            ["currentPage" => "index"]
         );
     }
 
     public static function feedback_create(Router $router)
     {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // TODO: finish POST method
+        }
+
         $router->renderView(
-            "feedback/feedback_create"
+            "feedback/feedback_create",
+            ["currentPage" => "feedbackForm"]
+        );
+    }
+
+    public static function admin_login(Router $router)
+    {
+        $router->renderView(
+            "feedback/admin_login",
+            ["currentPage" => "admingLoginForm"]
         );
     }
 }

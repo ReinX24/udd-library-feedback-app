@@ -2,10 +2,10 @@
 
 <div class="container mt-4">
     <h1>Submit Feedback</h1>
-    <form action="src/feedback.php" method="POST">
+    <form action="/feedback/create" method="POST">
         <div class="mb-3">
             <label for="name" class="form-label">Name (Optional)</label>
-            <input type="text" name="name" class="form-control">
+            <input type="text" name="name" class="form-control" value="<?= $feedback["name"] ?>">
         </div>
 
         <div class="mb-3">
@@ -13,15 +13,15 @@
             <textarea name="feedbackText" class="form-control" style="height: 200px;"></textarea>
         </div>
 
-        <!-- <?php if ($emptyFeedbackError) : ?>
+        <?php if (isset($errors["feedbackTextError"])) : ?>
             <div class="alert alert-danger">
-                <?= $emptyFeedbackError; ?>
+                <?= $errors["feedbackTextError"]; ?>
             </div>
-        <?php elseif ($successMessage) : ?>
+        <?php else : ?>
             <div class="alert alert-success">
-                <?= $successMessage; ?>
+                <?= "Feedback submitted!"; ?>
             </div>
-        <?php endif; ?> -->
+        <?php endif; ?>
 
         <button type="submit" name="feedback_submit" value="submit" class="btn btn-primary btn-lg">Submit</button>
     </form>

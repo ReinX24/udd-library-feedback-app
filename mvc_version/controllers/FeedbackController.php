@@ -9,7 +9,7 @@ use app\models\Feedback;
 
 class FeedbackController
 {
-    public static function index(Router $router)
+    public function index(Router $router)
     {
         $router->renderView(
             "feedback/index",
@@ -17,15 +17,36 @@ class FeedbackController
         );
     }
 
-    public static function feedback_create(Router $router)
+    public function feedback_create(Router $router)
     {
+        $errors = [];
+        $feedbackData = [
+            "name" => "",
+            "feedbackText" => ""
+        ];
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // TODO: finish POST method
+            $feedbackData["name"] = $_POST["name"];
+            $feedbackData["feedbackText"] = $_POST["feedbackText"];
+
+            $feedback = new Feedback();
+            $feedback->load($feedbackData);
+            $errors = $feedback->save();
+
+            if (empty($errors)) {
+                header("Location: /feedback/create");
+                exit;
+            }
         }
 
+        // If the request is a GET method
         $router->renderView(
             "feedback/feedback_create",
-            ["currentPage" => "feedbackForm"]
+            [
+                "currentPage" => "feedbackForm",
+                "feedback" => $feedbackData,
+                "errors" => $errors
+            ]
         );
     }
 
@@ -33,7 +54,7 @@ class FeedbackController
     {
         $router->renderView(
             "feedback/admin_login",
-            ["currentPage" => "admingLoginForm"]
+            ["currentPage" => "adminLoginForm"]
         );
     }
 }

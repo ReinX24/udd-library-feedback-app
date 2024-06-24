@@ -30,7 +30,7 @@ class Router
 
     public function resolve()
     {
-        $currentUrl = $_SERVER["REQUEST_URI"] ?? "";
+        $currentUrl = $_SERVER["REQUEST_URI"] ?? "/";
 
         // Removing the query string from the url
         if (strpos($currentUrl, "?")) {
@@ -50,7 +50,7 @@ class Router
             // Create a controller for the class
             $controlller = new $fn["controller"]();
             $method = $fn["method"];
-            $controlller::$method($this);
+            $controlller->$method($this);
         } else {
             echo "Page not found";
         }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app;
 
+use app\models\Feedback;
 use \PDO;
 
 class Database
@@ -26,5 +27,21 @@ class Database
 
     public function getFeedback()
     {
+    }
+
+    public function createFeedback(Feedback $feedback)
+    {
+        $createFeedbackQuery =
+            "INSERT INTO
+                feedback (name, feedback)
+            VALUES
+                (:name, :feedbackText)";
+
+        $statement = $this->pdo->prepare($createFeedbackQuery);
+
+        $statement->bindValue(":name", $feedback->name);
+        $statement->bindValue(":feedbackText", $feedback->feedbackText);
+
+        $statement->execute();
     }
 }

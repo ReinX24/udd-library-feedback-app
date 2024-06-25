@@ -32,7 +32,8 @@ class Feedback
         }
 
         if (empty($errors)) {
-            // TODO: add the feedback to our database
+            $db = new Database();
+            $db->createFeedback($this);
         }
 
         return $errors;

@@ -34,12 +34,18 @@ class FeedbackController
             $errors = $feedback->save();
 
             if (empty($errors)) {
-                header("Location: /feedback/create");
+                // If there are no errors, go back to the feedback_create page
+                $router->renderView(
+                    "feedback/feedback_create",
+                    [
+                        "currentPage" => "feedbackForm",
+                    ]
+                );
                 exit;
             }
         }
 
-        // If the request is a GET method
+        // If the request is a GET method, also returns errors and feedbackData
         $router->renderView(
             "feedback/feedback_create",
             [
@@ -47,14 +53,6 @@ class FeedbackController
                 "feedback" => $feedbackData,
                 "errors" => $errors
             ]
-        );
-    }
-
-    public static function admin_login(Router $router)
-    {
-        $router->renderView(
-            "feedback/admin_login",
-            ["currentPage" => "adminLoginForm"]
         );
     }
 }

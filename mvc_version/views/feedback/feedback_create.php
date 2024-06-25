@@ -5,7 +5,7 @@
     <form action="/feedback/create" method="POST">
         <div class="mb-3">
             <label for="name" class="form-label">Name (Optional)</label>
-            <input type="text" name="name" class="form-control" value="<?= $feedback["name"] ?>">
+            <input type="text" name="name" class="form-control" value="<?= $feedback["name"] ?? "" ?>">
         </div>
 
         <div class="mb-3">
@@ -17,7 +17,7 @@
             <div class="alert alert-danger">
                 <?= $errors["feedbackTextError"]; ?>
             </div>
-        <?php else : ?>
+        <?php elseif (!isset($errors)) : ?>
             <div class="alert alert-success">
                 <?= "Feedback submitted!"; ?>
             </div>

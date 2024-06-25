@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app;
 
 use app\models\Feedback;
+use app\models\Admin;
 use \PDO;
 
 class Database
@@ -43,5 +44,24 @@ class Database
         $statement->bindValue(":feedbackText", $feedback->feedbackText);
 
         $statement->execute();
+    }
+
+    public function getAdminCredentials(Admin $adminData)
+    {
+        $getAdminQuery =
+            "SELECT
+                *
+            FROM
+                admin_accounts
+            WHERE
+                username = :username";
+
+        $statement = $this->pdo->prepare($getAdminQuery);
+
+        $statement->bindValue(":username", $adminData->username);
+
+        $statement->execute();
+
+        return $statement->fetch(PDO::FETCH_ASSOC);
     }
 }

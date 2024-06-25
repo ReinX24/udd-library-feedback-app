@@ -2,32 +2,40 @@
 
 <div class="container mt-4">
     <h1>Admin Login</h1>
-    <form action="src/admin_login.php" method="POST">
+    <form action="/feedback/admin_login" method="POST">
         <div class="mb-3">
             <label for="name" class="form-label">Username</label>
-            <input type="text" name="name" class="form-control">
+            <input type="text" name="name" class="form-control" value="<?= $adminLoginData["username"] ?? "" ?>">
         </div>
-
-        <!-- <?php if ($emptyUsername) : ?>
+        <!-- 
+            Default admin credentials
+            admin
+            123
+        -->
+        <?php if (isset($errors["usernameEmptyError"])) : ?>
             <div class="alert alert-danger">
-                <?= $emptyUsername; ?>
+                <?= $errors["usernameEmptyError"]; ?>
             </div>
-        <?php endif; ?> -->
+        <?php elseif (isset($errors["userNotFoundError"])) : ?>
+            <div class="alert alert-danger">
+                <?= $errors["userNotFoundError"]; ?>
+            </div>
+        <?php endif; ?>
 
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input type="password" name="password" class="form-control">
         </div>
 
-        <!-- <?php if ($emptyPassword) : ?>
+        <?php if (isset($errors["passwordEmptyError"])) : ?>
             <div class="alert alert-danger">
-                <?= $emptyPassword; ?>
+                <?= $errors["passwordEmptyError"]; ?>
             </div>
-        <?php elseif ($wrongPassword) : ?>
+        <?php elseif (isset($errors["wrongPasswordError"])) : ?>
             <div class="alert alert-danger">
-                <?= $wrongPassword; ?>
+                <?= $errors["wrongPasswordError"]; ?>
             </div>
-        <?php endif; ?> -->
+        <?php endif; ?>
 
         <button type="submit" name="login" value="login" class="btn btn-primary btn-lg">Login</button>
     </form>

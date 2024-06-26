@@ -9,13 +9,13 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link <?= $currentPage == "adminIndex" ? "active" : ""; ?>" href="src/admin_panel.php?page=index">Home</a>
+                        <a class="nav-link <?= $currentPage == "adminIndex" ? "active" : ""; ?>" href="/admin/dashboard">Home</a>
                     </li>
                     <li>
-                        <a class="nav-link <?= $currentPage == "adminSearch" ? "active" : ""; ?>" href="src/admin_panel.php?page=search">Search</a>
+                        <a class="nav-link <?= $currentPage == "adminSearch" ? "active" : ""; ?>" href="/admin/search">Search</a>
                     </li>
                     <li>
-                        <a class="nav-link <?= $currentPage == "adminAdd" ? "active" : ""; ?>" href="src/admin_panel.php?page=admin_accounts">Admin Accounts</a>
+                        <a class="nav-link <?= $currentPage == "adminAdd" ? "active" : ""; ?>" href="">Admin Accounts</a>
                     </li>
                 </ul>
                 <form action="admin_logout.php" method="POST">

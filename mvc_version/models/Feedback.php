@@ -10,6 +10,12 @@ class Feedback
 {
     public string $name;
     public string $feedbackText;
+    private Database $db;
+
+    public function __construct()
+    {
+        $this->db = new Database();
+    }
 
     public function load(array $feedbackData)
     {
@@ -32,10 +38,29 @@ class Feedback
         }
 
         if (empty($errors)) {
-            $db = new Database();
-            $db->createFeedback($this);
+            $this->db->createFeedback($this);
         }
 
         return $errors;
+    }
+
+    public function getAllFeedback()
+    {
+        return $this->db->getFeedback();
+    }
+
+    public function getFeedbackByText(string $searchText)
+    {
+        return $this->db->getTextMatchFeedback($searchText);
+    }
+
+    public function getFeedbackByMonthAndYear(string $monthYearString)
+    {
+        return $this->db->getMonthAndYearMatchFeedback($monthYearString);
+    }
+
+    public function getFeedbackByExactDate(string $date)
+    {
+        return $this->db->getDateFeedback($date);
     }
 }

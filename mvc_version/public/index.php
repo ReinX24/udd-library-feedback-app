@@ -17,6 +17,7 @@ $router->addGetRoute("/feedback/admin_login", [AdminController::class, "admin_lo
 $router->addPostRoute("/feedback/admin_login", [AdminController::class, "admin_login"]);
 
 $router->addGetRoute("/admin/dashboard", [AdminController::class, "admin_dashboard"]);
-// $router->addGetRoute("/admin/search", []);
+
+$router->addGetRoute("/admin/search", [AdminController::class, "admin_search"]);
 
 $router->resolve();

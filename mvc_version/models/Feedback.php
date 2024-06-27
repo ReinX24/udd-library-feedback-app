@@ -8,8 +8,9 @@ use app\Database;
 
 class Feedback
 {
-    public string $name;
-    public string $feedbackText;
+    public ?string $id;
+    public ?string $name;
+    public ?string $feedbackText;
     private Database $db;
 
     public function __construct()
@@ -19,14 +20,15 @@ class Feedback
 
     public function load(array $feedbackData)
     {
-        $this->name = $feedbackData["name"];
+        $this->id = $feedbackData["id"] ?? null;
+        $this->name = $feedbackData["name"] ?? null;
 
         // If the name is empty, set name as "Anonymous"
         if (empty($this->name)) {
             $this->name = "Anonymous";
         }
 
-        $this->feedbackText = $feedbackData["feedbackText"]; // required
+        $this->feedbackText = $feedbackData["feedbackText"] ?? null; // required
     }
 
     public function save()
@@ -42,6 +44,12 @@ class Feedback
         }
 
         return $errors;
+    }
+
+    public function delete()
+    {
+        // TODO: delete the currently loaded in feedback using id
+        var_dump($this);
     }
 
     public function getAllFeedback()
@@ -62,5 +70,10 @@ class Feedback
     public function getFeedbackByExactDate(string $date)
     {
         return $this->db->getDateFeedback($date);
+    }
+
+    public function getFeedbackDetails(int $feedbackId)
+    {
+        return $this->db->getFeedbackById($feedbackId);
     }
 }

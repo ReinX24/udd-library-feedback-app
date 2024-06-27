@@ -37,10 +37,7 @@
                         <td><?= substr($feedback["feedback"], 0, 20) . "..."; ?></td>
                         <td><?= $feedback["created_at"]; ?></td>
                         <td>
-                            <a href="src/admin_panel.php?
-                            getDetails=true
-                            &feedbackId=<?= $feedback["id"]; ?>
-                            &page=detailsPage" target="_blank" class="btn btn-primary">Details</a>
+                            <a href="/admin/search/details?feedbackId=<?= $feedback["id"]; ?>" class="btn btn-primary">Details</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

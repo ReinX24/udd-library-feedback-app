@@ -10,6 +10,12 @@ class Admin
 {
     public string $username;
     public string $password;
+    private Database $db;
+
+    public function __construct()
+    {
+        $this->db = new Database();
+    }
 
     public function load(array $adminLoginData)
     {
@@ -30,8 +36,7 @@ class Admin
         }
 
         // Find the user and get record in database
-        $db = new Database();
-        $adminCredentials = $db->getAdminCredentials($this);
+        $adminCredentials = $this->db->getAdminCredentials($this);
 
         if (empty($adminCredentials)) {
             $errors["userNotFoundError"] = "User not found!";
@@ -52,5 +57,10 @@ class Admin
         }
 
         return $errors;
+    }
+
+    public function getAdminAccounts()
+    {
+        return $this->db->getAdminAccounts();
     }
 }

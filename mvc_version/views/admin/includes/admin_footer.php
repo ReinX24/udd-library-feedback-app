@@ -1,6 +1,3 @@
 </main>
 
-<script src="src/js_bootstrap/bootstrap.min.js"></script>
-</body>
-
-</html>
+<script src="/js_bootstrap/bootstrap.bundle.min.js"></script>

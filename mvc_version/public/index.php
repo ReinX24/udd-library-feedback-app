@@ -20,4 +20,14 @@ $router->addGetRoute("/admin/dashboard", [AdminController::class, "admin_dashboa
 
 $router->addGetRoute("/admin/search", [AdminController::class, "admin_search"]);
 
+$router->addGetRoute("/admin/search/details", [AdminController::class, "admin_search_details"]);
+
+$router->addGetRoute("/admin/search/delete", [AdminController::class, "admin_search_delete"]);
+$router->addPostRoute("/admin/search/delete", [AdminController::class, "admin_search_delete"]);
+
+$router->addGetRoute("/admin/accounts", [AdminController::class, "admin_accounts"]);
+
+$router->addGetRoute("/admin/logout", [AdminController::class, "admin_logout"]);
+$router->addPostRoute("/admin/logout", [AdminController::class, "admin_logout"]);
+
 $router->resolve();

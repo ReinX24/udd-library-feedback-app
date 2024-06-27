@@ -63,6 +63,25 @@ class Database
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getFeedbackById(int $feedbackId)
+    {
+        $getFeedback =
+            "SELECT
+                *
+            FROM
+                feedback
+            WHERE
+                id = :id";
+
+        $statement = $this->pdo->prepare($getFeedback);
+
+        $statement->bindValue(":id", $feedbackId);
+
+        $statement->execute();
+
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function getTextMatchFeedback(string $matchString)
     {
         $textMatch =
@@ -141,7 +160,22 @@ class Database
 
         $statement->execute();
 
-        return $statement->fetchAll();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAdminAccounts()
+    {
+        $adminAccountQuery =
+            "SELECT
+                *
+            FROM
+                admin_accounts";
+
+        $statement = $this->pdo->prepare($adminAccountQuery);
+
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function createFeedback(Feedback $feedback)

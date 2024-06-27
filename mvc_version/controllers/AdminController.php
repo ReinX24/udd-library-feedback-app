@@ -48,6 +48,7 @@ class AdminController
 
         if (!$_SESSION["isLoggedIn"]) {
             header("Location: /");
+            exit;
         }
 
         $router->renderView(
@@ -64,6 +65,7 @@ class AdminController
 
         if (!$_SESSION["isLoggedIn"]) {
             header("Location: /");
+            exit;
         }
 
         $feedback = new Feedback();
@@ -93,13 +95,87 @@ class AdminController
         );
     }
 
-    public function admin_logout()
+    public function admin_logout(Router $router)
     {
-        // TODO: logout the logged in admin account
+        session_start();
+
+        if (!$_SESSION["isLoggedIn"]) {
+            header("Location: /");
+            exit;
+        }
+
+        // Destroy all session variables and return to index page
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            session_start();
+
+            session_unset();
+            session_destroy();
+
+            header("Location: /");
+            exit;
+        }
+
+        $router->renderView("admin/admin_logout");
     }
 
-    public function admin_accounts()
+    public function admin_accounts(Router $router)
     {
-        // TODO: get the admins and implement add account functionality
+        session_start();
+
+        if (!$_SESSION["isLoggedIn"]) {
+            header("Location: /");
+            exit;
+        }
+
+        $admin = new Admin();
+        $adminData = $admin->getAdminAccounts();
+
+        $router->renderView(
+            "admin/admin_accounts",
+            [
+                "currentPage" => "adminAccounts",
+                "adminData" => $adminData
+            ]
+        );
+    }
+
+    public function admin_search_details(Router $router)
+    {
+        $feedback = new Feedback();
+        $feedbackData = $feedback->getFeedbackDetails((int) $_GET["feedbackId"]);
+
+        $router->renderView(
+            "admin/admin_search_details",
+            [
+                "currentPage" => "adminSearch",
+                "feedback" => $feedbackData
+            ]
+        );
+    }
+
+    public function admin_search_delete(Router $router)
+    {
+        $feedback = new Feedback();
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $feedbackData = [
+                "id" => $_POST["feedbackId"]
+            ];
+
+            $feedback->load($feedbackData);
+            $feedback->delete();
+
+            header("Location: /admin/search");
+            exit;
+        } else {
+            $feedbackData = $feedback->getFeedbackDetails((int) $_GET["feedbackId"]);
+        }
+
+        $router->renderView(
+            "admin/admin_search_delete",
+            [
+                "feedback" => $feedbackData
+            ]
+        );
     }
 }

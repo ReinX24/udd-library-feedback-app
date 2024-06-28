@@ -27,6 +27,9 @@ $router->addPostRoute("/admin/search/delete", [AdminController::class, "admin_se
 
 $router->addGetRoute("/admin/accounts", [AdminController::class, "admin_accounts"]);
 
+$router->addGetRoute("/admin/accounts/add", [AdminController::class, "admin_add"]);
+$router->addPostRoute("/admin/accounts/add", [AdminController::class, "admin_add"]);
+
 $router->addGetRoute("/admin/logout", [AdminController::class, "admin_logout"]);
 $router->addPostRoute("/admin/logout", [AdminController::class, "admin_logout"]);
 

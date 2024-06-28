@@ -48,8 +48,7 @@ class Feedback
 
     public function delete()
     {
-        // TODO: delete the currently loaded in feedback using id
-        var_dump($this);
+        $this->db->deleteFeedback($this);
     }
 
     public function getAllFeedback()

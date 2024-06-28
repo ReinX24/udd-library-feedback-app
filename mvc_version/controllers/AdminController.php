@@ -141,6 +141,13 @@ class AdminController
 
     public function admin_search_details(Router $router)
     {
+        session_start();
+
+        if (!$_SESSION["isLoggedIn"]) {
+            header("Location: /");
+            exit;
+        }
+
         $feedback = new Feedback();
         $feedbackData = $feedback->getFeedbackDetails((int) $_GET["feedbackId"]);
 
@@ -155,6 +162,13 @@ class AdminController
 
     public function admin_search_delete(Router $router)
     {
+        session_start();
+
+        if (!$_SESSION["isLoggedIn"]) {
+            header("Location: /");
+            exit;
+        }
+
         $feedback = new Feedback();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -167,14 +181,57 @@ class AdminController
 
             header("Location: /admin/search");
             exit;
-        } else {
-            $feedbackData = $feedback->getFeedbackDetails((int) $_GET["feedbackId"]);
         }
+
+        $feedbackData = $feedback->getFeedbackDetails((int) $_GET["feedbackId"]);
 
         $router->renderView(
             "admin/admin_search_delete",
             [
                 "feedback" => $feedbackData
+            ]
+        );
+    }
+
+    public function admin_add(Router $router)
+    {
+        session_start();
+
+        if (!$_SESSION["isLoggedIn"]) {
+            header("Location: /");
+            exit;
+        }
+
+        // TODO: only master_admin accounts can add admin accounts
+        $errors = [];
+
+        $adminData = [
+            "username" => "",
+            "password" => "",
+            "passwordReapeat" => ""
+        ];
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $adminData["username"] = $_POST["username"];
+            $adminData["password"] = $_POST["password"];
+            $adminData["passwordRepeat"] = $_POST["passwordRepeat"];
+
+            $admin = new Admin();
+
+            $admin->load($adminData);
+            $errors = $admin->addAdmin();
+
+            if (empty($errors)) {
+                header("Location: /admin/accounts");
+                exit;
+            }
+        }
+
+        $router->renderView(
+            "admin/admin_add",
+            [
+                "errors" => $errors,
+                "adminData" => $adminData
             ]
         );
     }

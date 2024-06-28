@@ -178,6 +178,22 @@ class Database
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function addAdminAccount(Admin $adminData)
+    {
+        $addAccountQuery =
+            "INSERT INTO
+                admin_accounts (username, password)
+            VALUES
+                (:username, :password)";
+
+        $statement = $this->pdo->prepare($addAccountQuery);
+
+        $statement->bindValue(":username", $adminData->username);
+        $statement->bindValue(":password", password_hash($adminData->password, PASSWORD_DEFAULT));
+
+        $statement->execute();
+    }
+
     public function createFeedback(Feedback $feedback)
     {
         $createFeedbackQuery =
@@ -190,6 +206,17 @@ class Database
 
         $statement->bindValue(":name", $feedback->name);
         $statement->bindValue(":feedbackText", $feedback->feedbackText);
+
+        $statement->execute();
+    }
+
+    public function deleteFeedback(Feedback $feedback)
+    {
+        $deleteFeedbackQuery = "DELETE FROM feedback WHERE id = :id";
+
+        $statement = $this->pdo->prepare($deleteFeedbackQuery);
+
+        $statement->bindValue(":id", $feedback->id);
 
         $statement->execute();
     }

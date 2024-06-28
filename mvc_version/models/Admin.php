@@ -8,8 +8,9 @@ use app\Database;
 
 class Admin
 {
-    public string $username;
-    public string $password;
+    public ?string $username;
+    public ?string $password;
+    public ?string $passwordRepeat;
     private Database $db;
 
     public function __construct()
@@ -17,10 +18,11 @@ class Admin
         $this->db = new Database();
     }
 
-    public function load(array $adminLoginData)
+    public function load(array $adminData)
     {
-        $this->username = $adminLoginData["username"];
-        $this->password = $adminLoginData["password"];
+        $this->username = $adminData["username"] ?? null;
+        $this->password = $adminData["password"] ?? null;
+        $this->passwordRepeat = $adminData["passwordRepeat"] ?? null;
     }
 
     public function login()
@@ -34,6 +36,8 @@ class Admin
         if (!$this->password) {
             $errors["passwordEmptyError"] = "Password empty!";
         }
+
+        // TODO: add repeat password validation
 
         // Find the user and get record in database
         $adminCredentials = $this->db->getAdminCredentials($this);
@@ -54,6 +58,36 @@ class Admin
             session_start();
             $_SESSION["userLoginInfo"] = $adminCredentials;
             $_SESSION["isLoggedIn"] = true;
+        }
+
+        return $errors;
+    }
+
+    public function addAdmin()
+    {
+        $errors = [];
+
+        if (!$this->username) {
+            $errors["emptyUsernameError"] = "Username is required.";
+        }
+
+        if (!$this->password) {
+            $errors["emptyPasswordError"] = "Password is required.";
+        }
+
+        if (!$this->passwordRepeat) {
+            $errors["emptyPasswordRepeatError"] = "Password repeat is required.";
+        }
+
+        if (
+            $this->password !== $this->passwordRepeat &&
+            !empty($this->password) && !empty($this->passwordRepeat)
+        ) {
+            $errors["passwordsMismatchError"] = "Passwords do not match.";
+        }
+
+        if (empty($errors)) {
+            $this->db->addAdminAccount($this);
         }
 
         return $errors;

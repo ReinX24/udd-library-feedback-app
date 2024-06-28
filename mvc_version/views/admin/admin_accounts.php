@@ -2,19 +2,21 @@
 
 <div class="container mt-4">
     <h1>Admin Accounts</h1>
-    <a href="add_admin_account.php" class="btn btn-primary btn-lg">
+    <a href="/admin/accounts/add" class="btn btn-primary btn-lg">
         Add Account
     </a>
     <table class="table table-bordered mt-4">
         <thead>
             <th scope="col">ID</th>
             <th scope="col">Name</th>
+            <th scope="col">Master Account</th>
         </thead>
         <tbody>
-            <?php foreach ($adminData as $name) : ?>
+            <?php foreach ($adminData as $admin) : ?>
                 <tr>
-                    <td><?= $name["id"]; ?></td>
-                    <td><?= $name["username"]; ?></td>
+                    <td><?= $admin["id"]; ?></td>
+                    <td><?= $admin["username"]; ?></td>
+                    <td><?= $admin["master_account"] ? "true" : "false"; ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

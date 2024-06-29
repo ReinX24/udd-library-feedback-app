@@ -34,11 +34,12 @@ $router->addGetRoute("/admin/accounts", [AdminController::class, "admin_accounts
 $router->addGetRoute("/admin/accounts/add", [AdminController::class, "admin_add"]);
 $router->addPostRoute("/admin/accounts/add", [AdminController::class, "admin_add"]);
 
-// TODO: remove admin accounts accounts
 $router->addGetRoute("/admin/accounts/delete", [AdminController::class, "admin_delete"]);
 $router->addPostRoute("/admin/accounts/delete", [AdminController::class, "admin_delete"]);
 
 // TODO: edit passwords and usernames of non master accounts
+$router->addGetRoute("/admin/accounts/edit", [AdminController::class, "admin_edit"]);
+$router->addPostRoute("/admin/accounts/edit", [AdminController::class, "admin_edit"]);
 
 // End of master account only pages
 

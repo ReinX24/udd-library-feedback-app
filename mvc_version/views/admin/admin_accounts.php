@@ -26,7 +26,7 @@
                         <td>
                             <div class="d-flex gap-2">
                                 <a href="/admin/accounts/delete?id=<?= $admin["id"]; ?>" class="btn btn-danger">Delete</a>
-                                <a href="" class="btn btn-secondary">Edit</a>
+                                <a href="/admin/accounts/edit?id=<?= $admin["id"]; ?>" class="btn btn-secondary">Edit</a>
                             </div>
                         </td>
                     <?php else : ?>

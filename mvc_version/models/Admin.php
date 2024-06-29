@@ -8,9 +8,15 @@ use app\Database;
 
 class Admin
 {
+    public ?int $id;
     public ?string $username;
+
     public ?string $password;
     public ?string $passwordRepeat;
+
+    public ?string $passwordNew;
+    public ?string $passwordNewRepeat;
+
     private Database $db;
 
     public function __construct()
@@ -20,9 +26,14 @@ class Admin
 
     public function load(array $adminData)
     {
+        $this->id = (int) $adminData["id"] ?? null;
         $this->username = $adminData["username"] ?? null;
+
         $this->password = $adminData["password"] ?? null;
         $this->passwordRepeat = $adminData["passwordRepeat"] ?? null;
+
+        $this->passwordNew = $adminData["passwordNew"] ?? null;
+        $this->passwordNewRepeat = $adminData["passwordNewRepeat"] ?? null;
     }
 
     public function login()
@@ -95,13 +106,25 @@ class Admin
         return $errors;
     }
 
+    public function editAdmin()
+    {
+        $errors = [];
+
+        return $errors;
+    }
+
+    public function deleteAdmin()
+    {
+        $this->db->deleteAdminAccount($this);
+    }
+
     public function getAdminAccounts()
     {
         return $this->db->getAdminAccounts();
     }
 
-    public function getAdminAccountById()
+    public function getAdminAccountById(int $id)
     {
-        // TODO: get account by id
+        return $this->db->getAdminById($id);
     }
 }

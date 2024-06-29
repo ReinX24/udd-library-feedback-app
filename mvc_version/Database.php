@@ -45,6 +45,19 @@ class Database
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getAdminById(int $id)
+    {
+        $getAdminByIdQuery = "SELECT * FROM admin_accounts WHERE id = :id";
+
+        $statement = $this->pdo->prepare($getAdminByIdQuery);
+
+        $statement->bindValue(":id", $id);
+
+        $statement->execute();
+
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function getFeedback()
     {
         $getAllFeedback =
@@ -190,6 +203,18 @@ class Database
 
         $statement->bindValue(":username", $adminData->username);
         $statement->bindValue(":password", password_hash($adminData->password, PASSWORD_DEFAULT));
+
+        $statement->execute();
+    }
+
+    public function deleteAdminAccount(Admin $adminData)
+    {
+        // TODO: delete admin account
+        $deleteAccountQuery = "DELETE FROM admin_accounts WHERE id = :id";
+
+        $statement = $this->pdo->prepare($deleteAccountQuery);
+
+        $statement->bindValue(":id", $adminData->id);
 
         $statement->execute();
     }

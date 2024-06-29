@@ -37,6 +37,17 @@
             </div>
         <?php endif; ?>
 
+        <div class="mb-3">
+            <label for="password" class="form-label">Re-enter Password</label>
+            <input type="password" name="passwordRepeat" class="form-control">
+        </div>
+
+        <?php if (isset($errors["passwordsMismatchError"])) : ?>
+            <div class="alert alert-danger">
+                <?= $errors["passwordsMismatchError"]; ?>
+            </div>
+        <?php endif; ?>
+
         <button type="submit" name="login" value="login" class="btn btn-primary btn-lg">Login</button>
     </form>
 </div>

@@ -37,7 +37,9 @@ class Admin
             $errors["passwordEmptyError"] = "Password empty!";
         }
 
-        // TODO: add repeat password validation
+        if ($this->password !== $this->passwordRepeat) {
+            $errors["passwordsMismatchError"] = "Passwords are not the same!";
+        }
 
         // Find the user and get record in database
         $adminCredentials = $this->db->getAdminCredentials($this);
@@ -96,5 +98,10 @@ class Admin
     public function getAdminAccounts()
     {
         return $this->db->getAdminAccounts();
+    }
+
+    public function getAdminAccountById()
+    {
+        // TODO: get account by id
     }
 }

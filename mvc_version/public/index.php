@@ -22,13 +22,25 @@ $router->addGetRoute("/admin/search", [AdminController::class, "admin_search"]);
 
 $router->addGetRoute("/admin/search/details", [AdminController::class, "admin_search_details"]);
 
+// Only master accounts can delete searches
 $router->addGetRoute("/admin/search/delete", [AdminController::class, "admin_search_delete"]);
 $router->addPostRoute("/admin/search/delete", [AdminController::class, "admin_search_delete"]);
 
 $router->addGetRoute("/admin/accounts", [AdminController::class, "admin_accounts"]);
 
+// TODO: add change password of current account
+
+// Master account only pages
 $router->addGetRoute("/admin/accounts/add", [AdminController::class, "admin_add"]);
 $router->addPostRoute("/admin/accounts/add", [AdminController::class, "admin_add"]);
+
+// TODO: remove admin accounts accounts
+$router->addGetRoute("/admin/accounts/delete", [AdminController::class, "admin_delete"]);
+$router->addPostRoute("/admin/accounts/delete", [AdminController::class, "admin_delete"]);
+
+// TODO: edit passwords and usernames of non master accounts
+
+// End of master account only pages
 
 $router->addGetRoute("/admin/logout", [AdminController::class, "admin_logout"]);
 $router->addPostRoute("/admin/logout", [AdminController::class, "admin_logout"]);

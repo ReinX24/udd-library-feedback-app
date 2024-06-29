@@ -21,6 +21,7 @@ class AdminController
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $adminLoginData["username"] = $_POST["name"];
             $adminLoginData["password"] = $_POST["password"];
+            $adminLoginData["passwordRepeat"] = $_POST["passwordRepeat"];
 
             $admin = new Admin();
             $admin->load($adminLoginData);
@@ -169,6 +170,10 @@ class AdminController
             exit;
         }
 
+        if (!$_SESSION["userLoginInfo"]["master_account"]) {
+            header("Location: /admin/dashboard");
+        }
+
         $feedback = new Feedback();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -202,7 +207,11 @@ class AdminController
             exit;
         }
 
-        // TODO: only master_admin accounts can add admin accounts
+        // Return the user to the admin dashboard if they are not a master account
+        if (!$_SESSION["userLoginInfo"]["master_account"]) {
+            header("Location: /admin/dashboard");
+        }
+
         $errors = [];
 
         $adminData = [
@@ -233,6 +242,16 @@ class AdminController
                 "errors" => $errors,
                 "adminData" => $adminData
             ]
+        );
+    }
+
+    public function admin_delete(Router $router)
+    {
+        $admin = new Admin();
+        // TODO: get admin account from database
+
+        $accountData = $admin->$router->renderView(
+            "admin/admin_delete",
         );
     }
 }

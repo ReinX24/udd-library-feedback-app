@@ -247,25 +247,36 @@ class AdminController
 
     public function admin_edit(Router $router)
     {
+        $errors = [];
         $admin = new Admin();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // TODO: finish POST functionality
             $admin->load($_POST);
+            $errors = $admin->editAdmin();
 
-            echo "<pre>";
-            var_dump($admin);
-            echo "</pre>";
-            exit;
+            // echo "<pre>";
+            // var_dump($_POST);
+            // var_dump($errors);
+            // echo "</pre>";
+            // exit;
+
+            $id = (int) $_POST["id"];
+
+            if (empty($errors)) {
+                header("Location: /admin/accounts");
+                exit;
+            }
+        } else {
+            $id = (int) $_GET["id"];
         }
 
-        $id = (int) $_GET["id"];
         $adminData = $admin->getAdminAccountById($id);
 
         $router->renderView(
             "admin/admin_edit",
             [
-                "adminData" => $adminData
+                "adminData" => $adminData,
+                "errors" => $errors
             ]
         );
     }

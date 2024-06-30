@@ -110,6 +110,42 @@ class Admin
     {
         $errors = [];
 
+        // Check if the username is empty
+        if (!$this->username) {
+            $errors["emptyUsernameError"] = "Username is required.";
+        }
+
+        // Check if the password is empty
+        if (!$this->password) {
+            $errors["emptyPasswordError"] = "Password is required.";
+        }
+
+        if (!$this->passwordNew) {
+            $errors["emptyPasswordNewError"] = "New password is required.";
+        }
+
+        if (!$this->passwordNewRepeat) {
+            $errors["emptyPasswordRepeatNewError"] = "Repeat new password is required.";
+        }
+
+        // Get the account with the same id
+        $accountData = $this->db->getAdminById($this->id);
+
+        // Checks if the password is the same with the account
+        if (!password_verify($this->password, $accountData["password"])) {
+            $errors["wrongPasswordError"] = "Wrong password!";
+        }
+
+        // Check if the new passwords are the same
+        if (
+            $this->passwordNew !== $this->passwordNewRepeat &&
+            !empty($this->passwordNew) && !empty($this->passwordNewRepeat)
+        ) {
+            $errors["passwordsNewMismatchError"] = "New passwords do not match.";
+        }
+
+        // TODO: if there are no errors, edit the data in database
+
         return $errors;
     }
 

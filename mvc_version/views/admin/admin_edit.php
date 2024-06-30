@@ -40,8 +40,9 @@ var_dump($adminData);
                 <input type="password" name="passwordNewRepeat" class="form-control">
             </div>
 
-            <!-- TODO: drop down list of master account or not -->
-            <div>
+            <div class="mb-3">
+                <input type="checkbox" name="masterAccount" class="form-check-input" <?= $adminData["master_account"] ? "checked" : ""; ?>>
+                <label for="masterAccount" class="form-check-label">Master Account</label>
             </div>
 
             <input type="hidden" name="id" value="<?= $adminData["id"]; ?>">

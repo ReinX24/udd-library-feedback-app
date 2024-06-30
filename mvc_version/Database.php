@@ -209,7 +209,6 @@ class Database
 
     public function deleteAdminAccount(Admin $adminData)
     {
-        // TODO: delete admin account
         $deleteAccountQuery = "DELETE FROM admin_accounts WHERE id = :id";
 
         $statement = $this->pdo->prepare($deleteAccountQuery);

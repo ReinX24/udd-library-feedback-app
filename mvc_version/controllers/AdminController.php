@@ -217,13 +217,15 @@ class AdminController
         $adminData = [
             "username" => "",
             "password" => "",
-            "passwordReapeat" => ""
+            "passwordReapeat" => "",
+            "master_account" => false
         ];
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $adminData["username"] = $_POST["username"];
             $adminData["password"] = $_POST["password"];
             $adminData["passwordRepeat"] = $_POST["passwordRepeat"];
+            $adminData["master_account"] = isset($_POST["masterAccount"]);
 
             $admin = new Admin();
 
@@ -260,36 +262,61 @@ class AdminController
         }
 
         $errors = [];
+
+        $adminData = [
+            "id" => "",
+            "username" => "",
+            "password" => "",
+            "changePassword" => false,
+            "passwordNew" => "",
+            "passwordNewRepeat" => "",
+            "master_account" => ""
+        ];
+
         $admin = new Admin();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $admin->load($_POST);
+            $adminData["id"] = (int) $_POST["id"];
+            $adminData["username"] = $_POST["username"];
+            $adminData["password"] = $_POST["password"];
+            $adminData["changePassword"] = isset($_POST["changePassword"]);
+            $adminData["passwordNew"] = $_POST["passwordNew"];
+            $adminData["passwordNewRepeat"] = $_POST["passwordNewRepeat"];
+            $adminData["master_account"] = isset($_POST["master_account"]);
+
+            $admin->load($adminData);
             $errors = $admin->editAdmin();
 
-            // echo "<pre>";
-            // var_dump($_POST);
-            // var_dump($errors);
-            // var_dump($admin);
-            // echo "</pre>";
-            // exit;
-
-            $id = (int) $_POST["id"];
-
             if (empty($errors)) {
+                // If there are no errors, return to the accounts page
                 header("Location: /admin/accounts");
                 exit;
             }
-        } else {
-            $id = (int) $_GET["id"];
+
+            // If there are any errors, return the last entered data
+            $router->renderView(
+                "admin/admin_edit",
+                [
+                    "adminData" => $adminData,
+                    "errors" => $errors
+                ]
+            );
+            exit;
         }
 
-        $adminData = $admin->getAdminAccountById($id);
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            // Get id from GET request and get account
+            $id = (int) $_GET["id"];
+            $adminData = $admin->getAdminAccountById($id);
+
+            // Change password will be set to false
+            $adminData["changePassword"] = false;
+        }
 
         $router->renderView(
             "admin/admin_edit",
             [
                 "adminData" => $adminData,
-                "changePassword" => $admin->changePassword ?? "",
                 "errors" => $errors
             ]
         );

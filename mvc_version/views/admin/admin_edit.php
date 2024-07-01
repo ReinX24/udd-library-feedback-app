@@ -1,8 +1,11 @@
 <?php require_once "includes/admin_header.php"; ?>
 
 <?php
+// echo "<pre>";
 // var_dump($_SESSION);
-var_dump($adminData);
+// var_dump($adminData);
+// var_dump($errors);
+// echo "</pre>";
 ?>
 
 <div class="container mt-4">
@@ -45,7 +48,7 @@ var_dump($adminData);
             <?php endif; ?>
 
             <div class="mb-3">
-                <input type="checkbox" class="btn-check" id="changePassword" name="changePassword" <?= $changePassword ? "checked" : ""; ?>>
+                <input type="checkbox" class="btn-check" id="changePassword" name="changePassword" <?= $adminData["changePassword"] ? "checked" : ""; ?>>
                 <label class="btn btn-outline-danger btn-lg" for="changePassword">Change Password</label>
             </div>
 
@@ -71,13 +74,8 @@ var_dump($adminData);
                 </div>
             <?php endif; ?>
 
-            <!-- <div class="mb-3">
-                <input type="checkbox" name="masterAccount" class="form-check-input" <?= $adminData["master_account"] ? "checked" : ""; ?>>
-                <label for="masterAccount" class="form-check-label">Master Account</label>
-            </div> -->
-
             <div class="mb-3">
-                <input type="checkbox" class="btn-check" id="masterAccount" name="masterAccount" <?= $adminData["master_account"] ? "checked" : ""; ?>>
+                <input type="checkbox" class="btn-check" id="masterAccount" name="master_account" <?= $adminData["master_account"] ? "checked" : ""; ?>>
                 <label class="btn btn-outline-primary btn-lg" for="masterAccount">Master Account</label>
             </div>
 

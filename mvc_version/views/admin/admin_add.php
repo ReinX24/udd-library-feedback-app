@@ -16,6 +16,12 @@
             </div>
         <?php endif; ?>
 
+        <?php if (isset($errors["usernameTakenError"])) : ?>
+            <div class="alert alert-danger">
+                <?= $errors["usernameTakenError"]; ?>
+            </div>
+        <?php endif; ?>
+
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input type="password" name="password" class="form-control">
@@ -44,10 +50,15 @@
             </div>
         <?php endif; ?>
 
-        <!-- TODO: add check for master_account enabling -->
+        <div class="mb-3">
+            <input type="checkbox" class="btn-check" id="masterAccount" name="masterAccount" <?= $adminData["master_account"] ? "checked" : ""; ?>>
+            <label class="btn btn-outline-primary btn-lg" for="masterAccount">Master Account</label>
+        </div>
 
-        <button class="btn btn-primary">Add Account</button>
-        <a href="/admin/accounts" class="btn btn-secondary">Cancel</a>
+        <hr>
+
+        <button class="btn btn-success btn-lg">Add Account</button>
+        <a href="/admin/accounts" class="btn btn-outline-secondary btn-lg">Cancel</a>
     </form>
 </div>
 

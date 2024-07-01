@@ -36,7 +36,7 @@ class Admin
         $this->password = $adminData["password"] ?? null;
         $this->passwordRepeat = $adminData["passwordRepeat"] ?? null;
 
-        $this->changePassword = isset($adminData["changePassword"]) ?? null;
+        $this->changePassword = $adminData["changePassword"] ?? null;
 
         // Set new password variables if the user wants to change passwords
         if ($this->changePassword) {
@@ -44,8 +44,7 @@ class Admin
             $this->passwordNewRepeat = $adminData["passwordNewRepeat"] ?? null;
         }
 
-
-        $this->master_account = isset($adminData["masterAccount"]) ?? null;
+        $this->master_account = isset($adminData["master_account"]);
     }
 
     public function login()
@@ -65,7 +64,7 @@ class Admin
         }
 
         // Find the user and get record in database
-        $adminCredentials = $this->db->getAdminCredentials($this);
+        $adminCredentials = $this->db->getAdminDataByUsername($this);
 
         if (empty($adminCredentials)) {
             $errors["userNotFoundError"] = "User not found!";
@@ -109,6 +108,14 @@ class Admin
             !empty($this->password) && !empty($this->passwordRepeat)
         ) {
             $errors["passwordsMismatchError"] = "Passwords do not match.";
+        }
+
+        // Checking if the username is already taken, returns false if not
+        $matchedCredentials = $this->db->getAdminDataByUsername($this);
+
+        // If there are any matched credentials
+        if ($matchedCredentials) {
+            $errors["usernameTakenError"] = "Username already taken.";
         }
 
         if (empty($errors)) {
@@ -166,7 +173,7 @@ class Admin
 
             // If the current account is the one being edited, apply changes
             if ($_SESSION["userLoginInfo"]["id"] == $this->id) {
-                $adminCredentials = $this->db->getAdminCredentials($this);
+                $adminCredentials = $this->db->getAdminDataByUsername($this);
                 $_SESSION["userLoginInfo"] = $adminCredentials;
             }
         }

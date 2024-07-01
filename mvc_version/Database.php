@@ -26,7 +26,7 @@ class Database
         self::$db = $this;
     }
 
-    public function getAdminCredentials(Admin $adminData)
+    public function getAdminDataByUsername(Admin $adminData)
     {
         $getAdminQuery =
             "SELECT
@@ -195,14 +195,15 @@ class Database
     {
         $addAccountQuery =
             "INSERT INTO
-                admin_accounts (username, password)
+                admin_accounts (username, password, master_account)
             VALUES
-                (:username, :password)";
+                (:username, :password, :master_account)";
 
         $statement = $this->pdo->prepare($addAccountQuery);
 
         $statement->bindValue(":username", $adminData->username);
         $statement->bindValue(":password", password_hash($adminData->password, PASSWORD_DEFAULT));
+        $statement->bindValue(":master_account", $adminData->master_account);
 
         $statement->execute();
     }

@@ -1,23 +1,8 @@
 <?php require_once "includes/admin_header.php"; ?>
 
-<?php
-// echo "<pre>";
-// var_dump($_SESSION);
-// var_dump($adminData);
-// var_dump($errors);
-// echo "</pre>";
-?>
-
 <div class="container mt-4">
-    <h1>Edit Admin Account</h1>
-
-    <?php if ($_SESSION["userLoginInfo"]["username"] == $adminData["username"]) : ?>
-        <div class="alert alert-warning fs-4">
-            You are editing the current logged in account!
-        </div>
-    <?php endif; ?>
-
-    <form action="/admin/accounts/edit" method="POST">
+    <h1>Edit Account</h1>
+    <form action="/admin/accounts/edit_account" method="POST">
         <div class="mb-3">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
@@ -80,17 +65,10 @@
                 </div>
             <?php endif; ?>
 
-            <div class="mb-3">
-                <input type="checkbox" class="btn-check" id="masterAccount" name="master_account" <?= $adminData["master_account"] ? "checked" : ""; ?>>
-                <label class="btn btn-outline-primary btn-lg" for="masterAccount">Master Account</label>
-            </div>
-
-            <input type="hidden" name="id" value="<?= $adminData["id"]; ?>">
-
             <hr>
 
             <button class="btn btn-success btn-lg">Apply Changes</button>
-            <a href="/admin/accounts" class="btn btn-secondary btn-lg">Cancel</a>
+            <a href="/admin/accounts/edit_account" class="btn btn-secondary btn-lg">Cancel</a>
 
     </form>
 </div>

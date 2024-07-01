@@ -2,7 +2,6 @@
 
 <div class="container mt-4">
     <h1>Add Admin Account</h1>
-    <!-- TODO: add success message -->
     <p class="text-success"><?= ""; ?></p>
     <form action="/admin/accounts/add" method="POST">
         <div class="mb-3">

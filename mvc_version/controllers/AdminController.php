@@ -233,7 +233,7 @@ class AdminController
             $errors = $admin->addAdmin();
 
             if (empty($errors)) {
-                header("Location: /admin/accounts");
+                header("Location: /admin/accounts?account_success_add=true");
                 exit;
             }
         }
@@ -270,7 +270,7 @@ class AdminController
             "changePassword" => false,
             "passwordNew" => "",
             "passwordNewRepeat" => "",
-            "master_account" => ""
+            "master_account" => null
         ];
 
         $admin = new Admin();
@@ -318,6 +318,42 @@ class AdminController
             [
                 "adminData" => $adminData,
                 "errors" => $errors
+            ]
+        );
+    }
+
+    // Edit the currently logged in admin account
+    public function admin_current_edit(Router $router)
+    {
+        // TODO: get the current admin account
+        session_start();
+
+        if (!$_SESSION["isLoggedIn"]) {
+            header("Location: /");
+            exit;
+        }
+
+        // Return the user to the admin dashboard if they are not a master account
+        if (!$_SESSION["userLoginInfo"]["master_account"]) {
+            header("Location: /admin/dashboard");
+        }
+
+        $errors = [];
+
+        // Get the id of the currently logged in user
+        $id = $_SESSION["userLoginInfo"]["id"];
+
+        // TODO: finish account editing functionality
+
+        $admin = new Admin();
+        $adminData = $admin->getAdminAccountById($id);
+        $adminData["changePassword"] = false; // false by default
+
+        $router->renderView(
+            "admin/admin_current_edit",
+            [
+                "currentPage" => "adminAccountEdit",
+                "adminData" => $adminData
             ]
         );
     }

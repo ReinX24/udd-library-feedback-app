@@ -11,6 +11,13 @@ var_dump($_SESSION);
             Add Account
         </a>
     <?php endif; ?>
+
+    <?php if (isset($_GET["account_success_add"])) : ?>
+        <div class="alert alert-success mt-4 fs-5">
+            Successfully added account!
+        </div>
+    <?php endif; ?>
+
     <table class="table table-bordered mt-4">
         <thead>
             <th scope="col">ID</th>

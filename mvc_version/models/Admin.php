@@ -44,7 +44,7 @@ class Admin
             $this->passwordNewRepeat = $adminData["passwordNewRepeat"] ?? null;
         }
 
-        $this->master_account = isset($adminData["master_account"]);
+        $this->master_account = $adminData["master_account"];
     }
 
     public function login()
@@ -138,10 +138,18 @@ class Admin
         if (!$this->password) {
             $errors["emptyPasswordError"] = "Password is required.";
         }
+
+        // Get an admin account by their username
+        $matchedUsername = $this->db->getAdminDataByUsername($this);
+
+        // Check if there is a match and if the id is different from the 
+        // currently being edited admin account
+        if (!empty($matchedUsername) && $matchedUsername["id"] !== $this->id) {
+            $errors["usernameTakenError"] = "Username already taken.";
+        }
+
         // Get the account with the same id
         $accountData = $this->db->getAdminById($this->id);
-
-        // TODO: check if the new username is already being used
 
         // Checks if the password is the same with the account
         if ($this->password && !password_verify($this->password, $accountData["password"])) {

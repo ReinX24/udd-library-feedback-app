@@ -29,6 +29,8 @@ $router->addPostRoute("/admin/search/delete", [AdminController::class, "admin_se
 $router->addGetRoute("/admin/accounts", [AdminController::class, "admin_accounts"]);
 
 // TODO: add change password of current account
+$router->addGetRoute("/admin/accounts/edit_account", [AdminController::class, "admin_current_edit"]);
+$router->addPostRoute("/admin/accounts/edit_account", [AdminController::class, "admin_current_edit"]);
 
 // Master account only pages
 $router->addGetRoute("/admin/accounts/add", [AdminController::class, "admin_add"]);
@@ -37,7 +39,6 @@ $router->addPostRoute("/admin/accounts/add", [AdminController::class, "admin_add
 $router->addGetRoute("/admin/accounts/delete", [AdminController::class, "admin_delete"]);
 $router->addPostRoute("/admin/accounts/delete", [AdminController::class, "admin_delete"]);
 
-// TODO: edit passwords and usernames of non master accounts
 $router->addGetRoute("/admin/accounts/edit", [AdminController::class, "admin_edit"]);
 $router->addPostRoute("/admin/accounts/edit", [AdminController::class, "admin_edit"]);
 

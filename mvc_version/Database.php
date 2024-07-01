@@ -216,7 +216,7 @@ class Database
             SET
                 username = :username,
                 password = :password,
-                master_account = :masterAccount
+                master_account = :master_account
             WHERE
                 id = :id";
 
@@ -231,7 +231,8 @@ class Database
             $statement->bindValue(":password", password_hash($adminData->password, PASSWORD_DEFAULT));
         }
 
-        $statement->bindValue(":masterAccount", $adminData->master_account);
+        $statement->bindValue(":master_account", $adminData->master_account);
+
         $statement->bindValue(":id", $adminData->id);
 
         $statement->execute();

@@ -247,6 +247,18 @@ class AdminController
 
     public function admin_edit(Router $router)
     {
+        session_start();
+
+        if (!$_SESSION["isLoggedIn"]) {
+            header("Location: /");
+            exit;
+        }
+
+        // Return the user to the admin dashboard if they are not a master account
+        if (!$_SESSION["userLoginInfo"]["master_account"]) {
+            header("Location: /admin/dashboard");
+        }
+
         $errors = [];
         $admin = new Admin();
 
@@ -257,6 +269,7 @@ class AdminController
             // echo "<pre>";
             // var_dump($_POST);
             // var_dump($errors);
+            // var_dump($admin);
             // echo "</pre>";
             // exit;
 
@@ -276,6 +289,7 @@ class AdminController
             "admin/admin_edit",
             [
                 "adminData" => $adminData,
+                "changePassword" => $admin->changePassword ?? "",
                 "errors" => $errors
             ]
         );

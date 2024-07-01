@@ -1,5 +1,9 @@
 <?php require_once "includes/admin_header.php"; ?>
 
+<?php
+var_dump($_SESSION);
+?>
+
 <div class="container mt-4">
     <h1>Admin Accounts</h1>
     <?php if ($_SESSION["userLoginInfo"]["master_account"]) : ?>
@@ -21,7 +25,9 @@
                 <tr>
                     <?php if ($_SESSION["userLoginInfo"]["master_account"]) : ?>
                         <td><?= $admin["id"]; ?></td>
-                        <td><?= $admin["username"]; ?></td>
+                        <td><?= $admin["username"]; ?>
+                            <?= $_SESSION["userLoginInfo"]["username"] == $admin["username"] ? "(current)" : ""; ?>
+                        </td>
                         <td><?= $admin["master_account"] ? "true" : "false"; ?></td>
                         <td>
                             <div class="d-flex gap-2">
@@ -32,7 +38,9 @@
                     <?php else : ?>
                         <?php if (!$admin["master_account"]) : ?>
                             <td><?= $admin["id"]; ?></td>
-                            <td><?= $admin["username"]; ?></td>
+                            <td><?= $admin["username"]; ?>
+                                <?= $_SESSION["userLoginInfo"]["username"] == $admin["username"] ? "(current)" : ""; ?>
+                            </td>
                         <?php endif; ?>
                     <?php endif; ?>
                 </tr>

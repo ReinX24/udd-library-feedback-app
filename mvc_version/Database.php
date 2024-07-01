@@ -207,6 +207,35 @@ class Database
         $statement->execute();
     }
 
+    public function editAdminAccount(Admin $adminData)
+    {
+        $editAccountQuery =
+            "UPDATE 
+                admin_accounts
+            SET
+                username = :username,
+                password = :password,
+                master_account = :masterAccount
+            WHERE
+                id = :id";
+
+        $statement = $this->pdo->prepare($editAccountQuery);
+
+        $statement->bindValue(":username", $adminData->username);
+
+        // Change password if the user wants to change password
+        if ($adminData->changePassword) {
+            $statement->bindValue(":password", password_hash($adminData->passwordNew, PASSWORD_DEFAULT));
+        } else {
+            $statement->bindValue(":password", password_hash($adminData->password, PASSWORD_DEFAULT));
+        }
+
+        $statement->bindValue(":masterAccount", $adminData->master_account);
+        $statement->bindValue(":id", $adminData->id);
+
+        $statement->execute();
+    }
+
     public function deleteAdminAccount(Admin $adminData)
     {
         $deleteAccountQuery = "DELETE FROM admin_accounts WHERE id = :id";

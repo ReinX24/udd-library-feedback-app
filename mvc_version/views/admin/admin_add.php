@@ -17,7 +17,7 @@
         <?php endif; ?>
 
         <div class="mb-3">
-            <label for="password" class="form-label">Passord</label>
+            <label for="password" class="form-label">Password</label>
             <input type="password" name="password" class="form-control">
         </div>
 
@@ -43,6 +43,8 @@
                 <?= $errors["passwordsMismatchError"] ?? ""; ?>
             </div>
         <?php endif; ?>
+
+        <!-- TODO: add check for master_account enabling -->
 
         <button class="btn btn-primary">Add Account</button>
         <a href="/admin/accounts" class="btn btn-secondary">Cancel</a>

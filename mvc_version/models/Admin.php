@@ -14,8 +14,12 @@ class Admin
     public ?string $password;
     public ?string $passwordRepeat;
 
+    public ?bool $changePassword;
+
     public ?string $passwordNew;
     public ?string $passwordNewRepeat;
+
+    public ?bool $master_account;
 
     private Database $db;
 
@@ -26,14 +30,22 @@ class Admin
 
     public function load(array $adminData)
     {
-        $this->id = (int) $adminData["id"] ?? null;
+        $this->id = array_key_exists("id", $adminData) ? (int) $adminData["id"] : null;
         $this->username = $adminData["username"] ?? null;
 
         $this->password = $adminData["password"] ?? null;
         $this->passwordRepeat = $adminData["passwordRepeat"] ?? null;
 
-        $this->passwordNew = $adminData["passwordNew"] ?? null;
-        $this->passwordNewRepeat = $adminData["passwordNewRepeat"] ?? null;
+        $this->changePassword = isset($adminData["changePassword"]) ?? null;
+
+        // Set new password variables if the user wants to change passwords
+        if ($this->changePassword) {
+            $this->passwordNew = $adminData["passwordNew"] ?? null;
+            $this->passwordNewRepeat = $adminData["passwordNewRepeat"] ?? null;
+        }
+
+
+        $this->master_account = isset($adminData["masterAccount"]) ?? null;
     }
 
     public function login()
@@ -119,32 +131,45 @@ class Admin
         if (!$this->password) {
             $errors["emptyPasswordError"] = "Password is required.";
         }
-
-        if (!$this->passwordNew) {
-            $errors["emptyPasswordNewError"] = "New password is required.";
-        }
-
-        if (!$this->passwordNewRepeat) {
-            $errors["emptyPasswordRepeatNewError"] = "Repeat new password is required.";
-        }
-
         // Get the account with the same id
         $accountData = $this->db->getAdminById($this->id);
 
+        // TODO: check if the new username is already being used
+
         // Checks if the password is the same with the account
-        if (!password_verify($this->password, $accountData["password"])) {
+        if ($this->password && !password_verify($this->password, $accountData["password"])) {
             $errors["wrongPasswordError"] = "Wrong password!";
         }
 
-        // Check if the new passwords are the same
-        if (
-            $this->passwordNew !== $this->passwordNewRepeat &&
-            !empty($this->passwordNew) && !empty($this->passwordNewRepeat)
-        ) {
-            $errors["passwordsNewMismatchError"] = "New passwords do not match.";
+        // If the user decides to change their password, check for errors
+        if ($this->changePassword) {
+            if (!$this->passwordNew) {
+                $errors["emptyPasswordNewError"] = "New password is required.";
+            }
+
+            if (!$this->passwordNewRepeat) {
+                $errors["emptyPasswordRepeatNewError"] = "Repeat new password is required.";
+            }
+
+            // Check if the new passwords are the same
+            if (
+                $this->passwordNew !== $this->passwordNewRepeat &&
+                !empty($this->passwordNew) && !empty($this->passwordNewRepeat)
+            ) {
+                $errors["passwordsNewMismatchError"] = "New passwords do not match.";
+            }
         }
 
-        // TODO: if there are no errors, edit the data in database
+        if (empty($errors)) {
+            // Edit the current account and replace login info
+            $this->db->editAdminAccount($this);
+
+            // If the current account is the one being edited, apply changes
+            if ($_SESSION["userLoginInfo"]["id"] == $this->id) {
+                $adminCredentials = $this->db->getAdminCredentials($this);
+                $_SESSION["userLoginInfo"] = $adminCredentials;
+            }
+        }
 
         return $errors;
     }

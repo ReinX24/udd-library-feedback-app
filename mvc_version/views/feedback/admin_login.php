@@ -7,11 +7,6 @@
             <label for="name" class="form-label">Username</label>
             <input type="text" name="name" class="form-control" value="<?= $adminLoginData["username"] ?? "" ?>">
         </div>
-        <!-- 
-            Default admin credentials
-            admin
-            123
-        -->
         <?php if (isset($errors["usernameEmptyError"])) : ?>
             <div class="alert alert-danger">
                 <?= $errors["usernameEmptyError"]; ?>

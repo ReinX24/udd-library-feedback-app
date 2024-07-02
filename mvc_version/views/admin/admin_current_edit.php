@@ -68,7 +68,7 @@
             <hr>
 
             <button class="btn btn-success btn-lg">Apply Changes</button>
-            <a href="/admin/accounts/edit_account" class="btn btn-secondary btn-lg">Cancel</a>
+            <a href="/admin/accounts" class="btn btn-secondary btn-lg">Cancel</a>
 
     </form>
 </div>

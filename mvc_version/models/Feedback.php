@@ -8,9 +8,10 @@ use app\Database;
 
 class Feedback
 {
-    public ?string $id;
+    public ?int $id;
     public ?string $name;
     public ?string $feedbackText;
+    public ?string $category;
     private Database $db;
 
     public function __construct()
@@ -20,15 +21,16 @@ class Feedback
 
     public function load(array $feedbackData)
     {
-        $this->id = $feedbackData["id"] ?? null;
+        $this->id = array_key_exists("id", $feedbackData) ? (int) $feedbackData["id"] : null;
         $this->name = $feedbackData["name"] ?? null;
+        $this->category = $feedbackData["category"] ?? null;
 
         // If the name is empty, set name as "Anonymous"
         if (empty($this->name)) {
             $this->name = "Anonymous";
         }
 
-        $this->feedbackText = $feedbackData["feedbackText"] ?? null; // required
+        $this->feedbackText = $feedbackData["feedback"] ?? null; // required
     }
 
     public function save()
@@ -41,6 +43,21 @@ class Feedback
 
         if (empty($errors)) {
             $this->db->createFeedback($this);
+        }
+
+        return $errors;
+    }
+
+    public function edit()
+    {
+        $errors = [];
+
+        if (!$this->feedbackText) {
+            $errors["feedbackTextError"] = "Feedback is required!";
+        }
+
+        if (empty($errors)) {
+            $this->db->editFeedback($this);
         }
 
         return $errors;
@@ -71,7 +88,16 @@ class Feedback
         return $this->db->getDateFeedback($date);
     }
 
-    public function getFeedbackDetails(int $feedbackId)
+    public function getFeedbackByCategory(string $category)
+    {
+        if ($category == "all") {
+            return $this->db->getFeedback();
+        }
+
+        return $this->db->getFeedbackByCategory($category);
+    }
+
+    public function getFeedbackById(int $feedbackId)
     {
         return $this->db->getFeedbackById($feedbackId);
     }

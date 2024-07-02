@@ -176,6 +176,19 @@ class Database
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getFeedbackByCategory(string $category)
+    {
+        $getCategory = "SELECT * FROM feedback WHERE category = :category";
+
+        $statement = $this->pdo->prepare($getCategory);
+
+        $statement->bindValue(":category", $category);
+
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getAdminAccounts()
     {
         $adminAccountQuery =
@@ -253,14 +266,41 @@ class Database
     {
         $createFeedbackQuery =
             "INSERT INTO
-                feedback (name, feedback)
+                feedback (name, feedback, category)
             VALUES
-                (:name, :feedbackText)";
+                (:name, :feedbackText, :category)";
 
         $statement = $this->pdo->prepare($createFeedbackQuery);
 
         $statement->bindValue(":name", $feedback->name);
         $statement->bindValue(":feedbackText", $feedback->feedbackText);
+        $statement->bindValue(":category", $feedback->category);
+
+        $statement->execute();
+    }
+
+    public function editFeedback(Feedback $feedback)
+    {
+        $updateFeedbackQuery =
+            "UPDATE
+                feedback
+            SET
+                name = :name,
+                feedback = :feedback,
+                category = :category,
+                is_edited = :is_edited
+            WHERE
+                id = :id";
+
+        $statement = $this->pdo->prepare($updateFeedbackQuery);
+
+        $statement->bindValue(":name", $feedback->name);
+        $statement->bindValue(":feedback", $feedback->feedbackText);
+        $statement->bindValue(":category", $feedback->category);
+
+        $statement->bindValue(":is_edited", true);
+
+        $statement->bindValue(":id", $feedback->id);
 
         $statement->execute();
     }

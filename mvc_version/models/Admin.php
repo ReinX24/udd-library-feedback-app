@@ -44,7 +44,7 @@ class Admin
             $this->passwordNewRepeat = $adminData["passwordNewRepeat"] ?? null;
         }
 
-        $this->master_account = $adminData["master_account"];
+        $this->master_account = $adminData["master_account"] ?? null;
     }
 
     public function login()

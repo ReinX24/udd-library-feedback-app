@@ -87,6 +87,10 @@ class AdminController
             $feedbackData = $feedback->getFeedbackByExactDate($_GET["search_date"]);
         }
 
+        if (isset($_GET["searchCategory"])) {
+            $feedbackData = $feedback->getFeedbackByCategory($_GET["searchCategory"]);
+        }
+
         $router->renderView(
             "admin/admin_search",
             [
@@ -150,12 +154,73 @@ class AdminController
         }
 
         $feedback = new Feedback();
-        $feedbackData = $feedback->getFeedbackDetails((int) $_GET["feedbackId"]);
+        $feedbackData = $feedback->getFeedbackById((int) $_GET["feedbackId"]);
 
         $router->renderView(
             "admin/admin_search_details",
             [
                 "currentPage" => "adminSearch",
+                "feedback" => $feedbackData
+            ]
+        );
+    }
+
+    public function admin_search_edit(Router $router)
+    {
+        session_start();
+
+        if (!$_SESSION["isLoggedIn"]) {
+            header("Location: /");
+            exit;
+        }
+
+        if (!$_SESSION["userLoginInfo"]["master_account"]) {
+            header("Location: /admin/dashboard");
+        }
+
+        $feedback = new Feedback();
+
+        $errors = [];
+
+        $feedbackData = [
+            "id" => "",
+            "name" => "",
+            "feedback" => "",
+            "category" => "",
+            "is_edited" => "",
+            "created_at" => ""
+        ];
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $feedbackData["id"] = (int) $_POST["id"];
+            $feedbackData["name"] = $_POST["name"];
+            $feedbackData["category"] = $_POST["categorySelect"];
+            $feedbackData["feedback"] = $_POST["feedbackText"];
+            $feedbackData["created_at"] = $_POST["created_at"];
+
+            $feedback->load($feedbackData);
+
+            // echo "<pre>";
+            // var_dump($feedback);
+            // echo "</pre>";
+            // exit;
+
+            $errors = $feedback->edit();
+
+            if (empty($errors)) {
+                header("Location: /admin/search");
+                exit;
+            }
+        }
+
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            $feedbackData = $feedback->getFeedbackById((int) $_GET["feedbackId"]);
+        }
+
+        $router->renderView(
+            "admin/admin_search_edit",
+            [
+                "errors" => $errors,
                 "feedback" => $feedbackData
             ]
         );
@@ -188,7 +253,7 @@ class AdminController
             exit;
         }
 
-        $feedbackData = $feedback->getFeedbackDetails((int) $_GET["feedbackId"]);
+        $feedbackData = $feedback->getFeedbackById((int) $_GET["feedbackId"]);
 
         $router->renderView(
             "admin/admin_search_delete",
@@ -325,7 +390,6 @@ class AdminController
     // Edit the currently logged in admin account
     public function admin_current_edit(Router $router)
     {
-        // TODO: get the current admin account
         session_start();
 
         if (!$_SESSION["isLoggedIn"]) {
@@ -333,27 +397,55 @@ class AdminController
             exit;
         }
 
-        // Return the user to the admin dashboard if they are not a master account
-        if (!$_SESSION["userLoginInfo"]["master_account"]) {
-            header("Location: /admin/dashboard");
-        }
-
         $errors = [];
+
+        $adminData = [
+            "id" => "",
+            "username" => "",
+            "password" => "",
+            "changePassword" => false,
+            "passwordNew" => "",
+            "passwordNewRepeat" => "",
+            "master_account" => ""
+        ];
 
         // Get the id of the currently logged in user
         $id = $_SESSION["userLoginInfo"]["id"];
 
-        // TODO: finish account editing functionality
-
         $admin = new Admin();
-        $adminData = $admin->getAdminAccountById($id);
-        $adminData["changePassword"] = false; // false by default
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $adminData["id"] = $id;
+            $adminData["username"] = $_POST["username"];
+            $adminData["password"] = $_POST["password"];
+            $adminData["changePassword"] = isset($_POST["changePassword"]);
+            $adminData["passwordNew"] = $_POST["passwordNew"];
+            $adminData["passwordNewRepeat"] = $_POST["passwordNewRepeat"];
+
+            // master_account status cannot be changed
+            $adminData["master_account"] = $_SESSION["userLoginInfo"]["master_account"] ? true : false;
+
+            $admin->load($adminData);
+            $errors = $admin->editAdmin();
+
+            if (empty($errors)) {
+                // If there are no errors, return to the accounts page
+                header("Location: /admin/accounts");
+                exit;
+            }
+        }
+
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            $adminData = $_SESSION["userLoginInfo"];
+            $adminData["changePassword"] = false;
+        }
 
         $router->renderView(
             "admin/admin_current_edit",
             [
                 "currentPage" => "adminAccountEdit",
-                "adminData" => $adminData
+                "adminData" => $adminData,
+                "errors" => $errors
             ]
         );
     }

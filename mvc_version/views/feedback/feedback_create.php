@@ -3,24 +3,24 @@
 <div class="container mt-4">
     <h1>Submit Feedback</h1>
     <form action="/feedback/create" method="POST">
-        <div class="form-floating mb-3">
-            <input type="text" id="name" name="name" placeholder="Enter name here" class="form-control" value="<?= $feedback["name"] ?? "" ?>">
-            <label for="name">Name (Optional)</label>
+        <div class="mb-3">
+            <label for="name" class="form-label fs-5">Name (Optional)</label>
+            <input type="text" name="name" placeholder="Enter name here" class="form-control form-control-lg" value="<?= $feedback["name"] ?? "" ?>">
         </div>
 
-        <div class="form-floating mb-3">
-            <select id="categorySelect" name="categorySelect" class="form-select">
+        <div class="mb-3">
+            <label class="form-label fs-5" for="categorySelect">Category</label>
+            <select name="categorySelect" class="form-select form-select-lg">
                 <option value="books" selected>Books</option>
                 <option value="staff">Staff</option>
                 <option value="facilities">Facilities</option>
-                <option value="misc">Miscellaneous</option>
+                <option value="miscellaneous">Miscellaneous</option>
             </select>
-            <label for="categorySelect">Category</label>
         </div>
 
-        <div class="form-floating mb-3">
-            <textarea id="feedbackText" name="feedbackText" placeholder="Enter feedback here" class="form-control" style="height: 200px;"></textarea>
-            <label for="feedbackText">Feedback</label>
+        <div class="mb-3">
+            <label for="feedbackText" class="form-label fs-5">Feedback</label>
+            <textarea name="feedbackText" placeholder="Enter feedback here" class="form-control fs-5" style="height: 12rem"></textarea>
         </div>
 
         <?php if (isset($errors["feedbackTextError"])): ?>
@@ -28,7 +28,7 @@
                 <?= $errors["feedbackTextError"]; ?>
             </div>
         <?php elseif (!isset($errors)): ?>
-            <div class="alert alert-success">
+            <div class="alert alert-success fs-5">
                 <?= "Feedback submitted!"; ?>
             </div>
         <?php endif; ?>

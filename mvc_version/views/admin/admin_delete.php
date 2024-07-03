@@ -1,8 +1,9 @@
 <?php require_once "includes/admin_header.php"; ?>
 
 <div class="container mt-4">
+    <!-- TODO: add cancel button and increase font sizes -->
     <h1>Are you sure you want to delete this account?</h1>
-    <?php if ($_SESSION["userLoginInfo"]["id"] == $adminData["id"]) : ?>
+    <?php if ($_SESSION["userLoginInfo"]["id"] == $adminData["id"]): ?>
         <h4 class="text-danger">This will delete the current account!</h4>
     <?php endif; ?>
     <hr>

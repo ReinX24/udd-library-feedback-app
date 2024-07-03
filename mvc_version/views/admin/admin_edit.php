@@ -11,9 +11,13 @@
 <div class="container mt-4">
     <h1>Edit Admin Account</h1>
 
-    <?php if ($_SESSION["userLoginInfo"]["username"] == $adminData["username"]) : ?>
-        <div class="alert alert-warning fs-4">
+    <?php if ($_SESSION["userLoginInfo"]["username"] == $adminData["username"]): ?>
+        <div class="alert alert-warning fs-5">
             You are editing the current logged in account!
+        </div>
+
+        <div class="alert alert-warning fs-5">
+            Applying changes will logout account!
         </div>
     <?php endif; ?>
 
@@ -24,13 +28,13 @@
                 <input type="text" name="username" class="form-control" value="<?= $adminData["username"] ?? "" ?>">
             </div>
 
-            <?php if (isset($errors["emptyUsernameError"])) : ?>
+            <?php if (isset($errors["emptyUsernameError"])): ?>
                 <div class="alert alert-danger">
                     <?= $errors["emptyUsernameError"]; ?>
                 </div>
             <?php endif; ?>
 
-            <?php if (isset($errors["usernameTakenError"])) : ?>
+            <?php if (isset($errors["usernameTakenError"])): ?>
                 <div class="alert alert-danger">
                     <?= $errors["usernameTakenError"]; ?>
                 </div>
@@ -41,13 +45,13 @@
                 <input type="password" name="password" class="form-control">
             </div>
 
-            <?php if (isset($errors["emptyPasswordError"])) : ?>
+            <?php if (isset($errors["emptyPasswordError"])): ?>
                 <div class="alert alert-danger">
                     <?= $errors["emptyPasswordError"]; ?>
                 </div>
             <?php endif; ?>
 
-            <?php if (isset($errors["wrongPasswordError"])) : ?>
+            <?php if (isset($errors["wrongPasswordError"])): ?>
                 <div class="alert alert-danger">
                     <?= $errors["wrongPasswordError"]; ?>
                 </div>
@@ -63,7 +67,7 @@
                 <input type="password" name="passwordNew" class="form-control">
             </div>
 
-            <?php if (isset($errors["emptyPasswordNewError"])) : ?>
+            <?php if (isset($errors["emptyPasswordNewError"])): ?>
                 <div class="alert alert-danger">
                     <?= $errors["emptyPasswordNewError"]; ?>
                 </div>
@@ -74,7 +78,7 @@
                 <input type="password" name="passwordNewRepeat" class="form-control">
             </div>
 
-            <?php if (isset($errors["emptyPasswordRepeatNewError"])) : ?>
+            <?php if (isset($errors["emptyPasswordRepeatNewError"])): ?>
                 <div class="alert alert-danger">
                     <?= $errors["emptyPasswordRepeatNewError"]; ?>
                 </div>

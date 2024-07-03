@@ -32,7 +32,6 @@ $router->addPostRoute("/admin/search/delete", [AdminController::class, "admin_se
 
 $router->addGetRoute("/admin/accounts", [AdminController::class, "admin_accounts"]);
 
-// TODO: logout current user when they change their password
 // Editing the current account of the user
 $router->addGetRoute("/admin/accounts/edit_account", [AdminController::class, "admin_current_edit"]);
 $router->addPostRoute("/admin/accounts/edit_account", [AdminController::class, "admin_current_edit"]);

@@ -8,6 +8,8 @@ use app\models\Feedback;
 use app\Router;
 use app\models\Admin;
 
+use \DateTime;
+
 class AdminController
 {
     public function admin_login(Router $router)
@@ -15,7 +17,8 @@ class AdminController
         $errors = [];
         $adminLoginData = [
             "username" => "",
-            "password" => ""
+            "password" => "",
+            "passwordRepeat" => ""
         ];
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -91,10 +94,21 @@ class AdminController
             $feedbackData = $feedback->getFeedbackByCategory($_GET["searchCategory"]);
         }
 
+        // Getting the current dates for placeholders
+        $currentDate = new DateTime();
+
+        $currentYearMonth = $currentDate->format("Y-m");
+        $currentDayMonthYear = $currentDate->format("Y-m-d");
+
+        // echo $currentDayMonthYear;
+        // exit;
+
         $router->renderView(
             "admin/admin_search",
             [
                 "currentPage" => "adminSearch",
+                "currentYearMonth" => $currentYearMonth,
+                "currentDayMonthYear" => $currentDayMonthYear,
                 "matchedFeedback" => $feedbackData
             ]
         );
@@ -429,8 +443,8 @@ class AdminController
             $errors = $admin->editAdmin();
 
             if (empty($errors)) {
-                // If there are no errors, return to the accounts page
-                header("Location: /admin/accounts");
+                // If there are no errors, logout the current account
+                $this->admin_logout($router);
                 exit;
             }
         }

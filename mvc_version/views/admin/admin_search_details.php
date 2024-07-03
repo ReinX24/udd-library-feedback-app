@@ -2,17 +2,17 @@
 
 <div class="container mt-4">
     <h1><?= $feedback["name"]; ?></h1>
-    <p><strong>Created At: </strong><?= $feedback["created_at"]; ?></p>
-    <p><strong>Category: </strong><?= $feedback["category"]; ?></p>
+    <p class="fs-5"><strong>Created At: </strong><?= date("m/d/Y h:i:s A", strtotime($feedback["created_at"])); ?></p>
+    <p class="fs-5"><strong>Category: </strong><?= $feedback["category"]; ?></p>
+    <p class="fs-5"><strong>Edited: </strong><?= $feedback["is_edited"] ? "true" : "false"; ?></p>
 
-    <!-- TODO: add functionality to edit entries. Show that these are edited. -->
     <?php if ($_SESSION["userLoginInfo"]["master_account"]): ?>
         <a href="/admin/search/edit?feedbackId=<?= $feedback["id"]; ?>" class="btn btn-primary btn-lg">Edit</a>
     <?php endif; ?>
 
-    <div class="form-floating mt-4">
-        <textarea class="form-control" id="feedbackText" style="height: 12rem;" disabled><?= $feedback["feedback"]; ?></textarea>
-        <label for="feedbackText">Feedback</label>
+    <div class="mt-4">
+        <label for="feedbackText" class="form-label fs-5">Feedback</label>
+        <textarea class="form-control form-control-lg" id="feedbackText" style="height: 12rem;" disabled><?= $feedback["feedback"]; ?></textarea>
     </div>
 
     <div class="d-flex gap-2 mt-4">

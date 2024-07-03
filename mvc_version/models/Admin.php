@@ -59,7 +59,14 @@ class Admin
             $errors["passwordEmptyError"] = "Password empty!";
         }
 
-        if ($this->password !== $this->passwordRepeat) {
+        if (!$this->passwordRepeat) {
+            $errors["passwordRepeatError"] = "Password repeat empty!";
+        }
+
+        if (
+            !empty($this->password) && !empty($this->passwordRepeat)
+            && $this->password !== $this->passwordRepeat
+        ) {
             $errors["passwordsMismatchError"] = "Passwords are not the same!";
         }
 

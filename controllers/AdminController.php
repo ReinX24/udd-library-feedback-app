@@ -96,12 +96,8 @@ class AdminController
 
         // Getting the current dates for placeholders
         $currentDate = new DateTime();
-
         $currentYearMonth = $currentDate->format("Y-m");
         $currentDayMonthYear = $currentDate->format("Y-m-d");
-
-        // echo $currentDayMonthYear;
-        // exit;
 
         $router->renderView(
             "admin/admin_search",

@@ -8,7 +8,7 @@
         </div>
     <?php endif; ?>
     <hr>
-    <table class="table table-bordered mt-4 fs-5">
+    <table class="table table-bordered table-striped mt-4 fs-5">
         <thead>
             <th scope="col">ID</th>
             <th scope="col">Name</th>
@@ -18,7 +18,12 @@
             <tr>
                 <td><?= $adminData["id"]; ?></td>
                 <td><?= $adminData["username"]; ?></td>
-                <td><?= $adminData["master_account"] ? "true" : "false"; ?></td>
+
+                <?php if ($adminData["master_account"]): ?>
+                    <td class="text-success"><?= "true" ?></td>
+                <?php else: ?>
+                    <td class="text-danger"><?= "false" ?></td>
+                <?php endif; ?>
             </tr>
         </tbody>
     </table>

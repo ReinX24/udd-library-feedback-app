@@ -1,7 +1,9 @@
 <?php require_once "includes/admin_header.php"; ?>
 
 <?php
-// var_dump($_SESSION);
+// echo "<pre>";
+// var_dump($adminData);
+// echo "</pre>";
 ?>
 
 <div class="container mt-4">
@@ -30,7 +32,7 @@
         </div>
     <?php endif; ?>
 
-    <table class="table table-bordered mt-4 fs-5">
+    <table class="table table-bordered table-striped mt-4 fs-5">
         <thead>
             <th scope="col">ID</th>
             <th scope="col">Name</th>
@@ -44,10 +46,17 @@
                 <tr>
                     <?php if ($_SESSION["userLoginInfo"]["master_account"]): ?>
                         <td><?= $admin["id"]; ?></td>
+
                         <td><?= $admin["username"]; ?>
                             <?= $_SESSION["userLoginInfo"]["username"] == $admin["username"] ? "(current)" : ""; ?>
                         </td>
-                        <td><?= $admin["master_account"] ? "true" : "false"; ?></td>
+
+                        <?php if ($admin["master_account"]): ?>
+                            <td class="text-success"><?= "true" ?></td>
+                        <?php else: ?>
+                            <td class="text-danger"><?= "false" ?></td>
+                        <?php endif; ?>
+
                         <td>
                             <div class="d-flex gap-2">
                                 <a href="/admin/accounts/delete?id=<?= $admin["id"]; ?>" class="btn btn-danger btn-lg">Delete</a>
@@ -55,12 +64,10 @@
                             </div>
                         </td>
                     <?php else: ?>
-                        <?php if (!$admin["master_account"]): ?>
-                            <td><?= $admin["id"]; ?></td>
-                            <td><?= $admin["username"]; ?>
-                                <?= $_SESSION["userLoginInfo"]["username"] == $admin["username"] ? "(current)" : ""; ?>
-                            </td>
-                        <?php endif; ?>
+                        <td><?= $admin["id"]; ?></td>
+                        <td><?= $admin["username"]; ?>
+                            <?= $_SESSION["userLoginInfo"]["username"] == $admin["username"] ? "(current)" : ""; ?>
+                        </td>
                     <?php endif; ?>
                 </tr>
             <?php endforeach; ?>

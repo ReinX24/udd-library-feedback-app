@@ -1,7 +1,6 @@
 <?php
 
-// TODO: add virtual host for application
-
+// Using composer to autoload classes
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use app\Router;
@@ -38,19 +37,20 @@ $router->addGetRoute("/admin/accounts", [AdminController::class, "admin_accounts
 $router->addGetRoute("/admin/accounts/edit_account", [AdminController::class, "admin_current_edit"]);
 $router->addPostRoute("/admin/accounts/edit_account", [AdminController::class, "admin_current_edit"]);
 
-// Master accounts can only add accounts
+// Master accounts can add accounts
 $router->addGetRoute("/admin/accounts/add", [AdminController::class, "admin_add"]);
 $router->addPostRoute("/admin/accounts/add", [AdminController::class, "admin_add"]);
 
-// Master accounts can only delete accounts
+// Master accounts can delete accounts
 $router->addGetRoute("/admin/accounts/delete", [AdminController::class, "admin_delete"]);
 $router->addPostRoute("/admin/accounts/delete", [AdminController::class, "admin_delete"]);
 
-// Master accounts can only edit accounts, can change username, password, and privileges
+// Master accounts can edit accounts, can change username, password, and privileges
 $router->addGetRoute("/admin/accounts/edit", [AdminController::class, "admin_edit"]);
 $router->addPostRoute("/admin/accounts/edit", [AdminController::class, "admin_edit"]);
 
 $router->addGetRoute("/admin/logout", [AdminController::class, "admin_logout"]);
 $router->addPostRoute("/admin/logout", [AdminController::class, "admin_logout"]);
 
+// The router will resolve the URL and find the corresponding controller and method
 $router->resolve();

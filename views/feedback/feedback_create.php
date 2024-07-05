@@ -27,7 +27,9 @@
             <div class="alert alert-danger">
                 <?= $errors["feedbackTextError"]; ?>
             </div>
-        <?php elseif (!isset($errors)): ?>
+        <?php endif; ?>
+
+        <?php if (isset($_GET["added_feedback"])): ?>
             <div class="alert alert-success fs-5">
                 <?= "Feedback submitted!"; ?>
             </div>

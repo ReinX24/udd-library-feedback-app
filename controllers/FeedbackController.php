@@ -9,6 +9,9 @@ use app\models\Feedback;
 
 class FeedbackController
 {
+    /**
+     * Load the index page of the feedback.
+     */
     public function index(Router $router)
     {
         $router->renderView(
@@ -17,6 +20,9 @@ class FeedbackController
         );
     }
 
+    /**
+     * Load the feedback_create page and create a Feedback object.
+     */
     public function feedback_create(Router $router)
     {
         $errors = [];
@@ -36,13 +42,8 @@ class FeedbackController
             $errors = $feedback->save();
 
             if (empty($errors)) {
-                // If there are no errors, go back to the feedback_create page
-                $router->renderView(
-                    "feedback/feedback_create",
-                    [
-                        "currentPage" => "feedbackForm",
-                    ]
-                );
+                // If there are no errors, go back to the /feedback/create page
+                header("Location: /feedback/create?added_feedback=true");
                 exit;
             }
         }

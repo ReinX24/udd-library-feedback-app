@@ -42,7 +42,7 @@
     <hr>
 
     <?php if (!empty($matchedFeedback)): ?>
-        <table class="table table-bordered mt-4 fs-5">
+        <table class="table table-bordered table-striped mt-4 fs-5">
             <thead>
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
@@ -58,8 +58,23 @@
                         <td><?= $feedback["id"]; ?></td>
                         <td><?= $feedback["name"]; ?></td>
                         <td><?= strlen($feedback["feedback"]) > 20 ? substr($feedback["feedback"], 0, 20) . "..." : $feedback["feedback"]; ?></td>
-                        <td><?= $feedback["category"]; ?></td>
-                        <td><?= $feedback["is_edited"] ? "true" : "false"; ?></td>
+
+                        <?php if ($feedback["category"] == "books"): ?>
+                            <td class="text-primary"><?= $feedback["category"]; ?></td>
+                        <?php elseif ($feedback["category"] == "facilities"): ?>
+                            <td class="text-success"><?= $feedback["category"]; ?></td>
+                        <?php elseif ($feedback["category"] == "staff"): ?>
+                            <td class="text-danger"><?= $feedback["category"]; ?></td>
+                        <?php else: ?>
+                            <td class="text-warning-emphasis"><?= $feedback["category"]; ?></td>
+                        <?php endif; ?>
+
+                        <?php if ($feedback["is_edited"]): ?>
+                            <td class="text-danger"><?= "true"; ?></td>
+                        <?php else: ?>
+                            <td class="text-success"><?= "false"; ?></td>
+                        <?php endif; ?>
+
                         <td><?= date("m/d/Y h:i:s A", strtotime($feedback["created_at"])); ?></td>
                         <td>
                             <a href="/admin/search/details?feedbackId=<?= $feedback["id"]; ?>" class="btn btn-secondary btn-lg">Details</a>
@@ -69,7 +84,9 @@
             </tbody>
         </table>
     <?php else: ?>
-        <p>No matches found.</p>
+        <div class="alert alert-info fs-5">
+            No matches found.
+        </div>
     <?php endif; ?>
 </div>
 

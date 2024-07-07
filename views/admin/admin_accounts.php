@@ -8,6 +8,8 @@
 
 <div class="container mt-4">
     <h1>Admin Accounts</h1>
+
+    <!-- TODO: make alerts dismissible -->
     <?php if ($_SESSION["userLoginInfo"]["master_account"]): ?>
         <a href="/admin/accounts/add" class="btn btn-primary btn-lg">
             Add Account

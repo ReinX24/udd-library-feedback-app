@@ -3,6 +3,15 @@
 <div class="container mt-4">
     <h1>Details</h1>
     <hr>
+
+    <?php if (isset($_GET["edited_success"])): ?>
+        <div class="alert alert-info alert-dismissible fade show fs-5" role="alert">
+            Successfully edited feedback!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
+    <!-- TODO: add alert for deleting an account -->
     <table class="table table-bordered table-striped mt-4 fs-5">
         <thead>
             <th scope="col">ID</th>

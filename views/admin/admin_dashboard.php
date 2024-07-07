@@ -3,6 +3,13 @@
 <div class="container mt-4">
     <div class="container my-5">
         <div class="p-5 text-center bg-body-tertiary rounded-3">
+
+            <?php if ($_SESSION["userLoginInfo"]["master_account"]): ?>
+                <h1 class="text-body-emphasis">Welcome, <span class="text-primary"><?= $_SESSION["userLoginInfo"]["username"]; ?></span></h1>
+            <?php else: ?>
+                <h1 class="text-body-emphasis">Welcome, <span class="text-secondary"><?= $_SESSION["userLoginInfo"]["username"]; ?></span></h1>
+            <?php endif; ?>
+
             <img src="/images/udd_logo.png" class="mb-4" width="200" height="200">
             <h1 class="text-body-emphasis">UdD Library Feedback Admin Panel</h1>
             <p class="col-lg-8 mx-auto fs-5 text-muted">

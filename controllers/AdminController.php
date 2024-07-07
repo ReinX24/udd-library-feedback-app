@@ -209,16 +209,11 @@ class AdminController
             $feedbackData["created_at"] = $_POST["created_at"];
 
             $feedback->load($feedbackData);
-
-            // echo "<pre>";
-            // var_dump($feedback);
-            // echo "</pre>";
-            // exit;
-
             $errors = $feedback->edit();
 
             if (empty($errors)) {
-                header("Location: /admin/search");
+                // Go back to details page with success message
+                header("Location: /admin/search/details?feedbackId=$feedback->id&edited_success=true");
                 exit;
             }
         }

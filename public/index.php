@@ -33,9 +33,15 @@ $router->addPostRoute("/admin/search/delete", [AdminController::class, "admin_se
 
 $router->addGetRoute("/admin/accounts", [AdminController::class, "admin_accounts"]);
 
+$router->addGetRoute("/admin/account", [AdminController::class, "admin_account"]);
+
 // Editing the current account of the user
-$router->addGetRoute("/admin/accounts/edit_account", [AdminController::class, "admin_current_edit"]);
-$router->addPostRoute("/admin/accounts/edit_account", [AdminController::class, "admin_current_edit"]);
+$router->addGetRoute("/admin/account/edit_account", [AdminController::class, "admin_current_edit"]);
+$router->addPostRoute("/admin/account/edit_account", [AdminController::class, "admin_current_edit"]);
+
+// Deleting the current account of the user
+$router->addGetRoute("/admin/account/delete_account", [AdminController::class, "admin_current_delete"]);
+$router->addPostRoute("/admin/account/delete_account", [AdminController::class, "admin_current_delete"]);
 
 // Master accounts can add accounts
 $router->addGetRoute("/admin/accounts/add", [AdminController::class, "admin_add"]);

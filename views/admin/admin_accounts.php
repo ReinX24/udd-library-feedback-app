@@ -9,7 +9,6 @@
 <div class="container mt-4">
     <h1>Admin Accounts</h1>
 
-    <!-- TODO: make alerts dismissible -->
     <?php if ($_SESSION["userLoginInfo"]["master_account"]): ?>
         <a href="/admin/accounts/add" class="btn btn-primary btn-lg">
             Add Account
@@ -17,20 +16,23 @@
     <?php endif; ?>
 
     <?php if (isset($_GET["account_success_add"])): ?>
-        <div class="alert alert-success mt-4 fs-5">
+        <div class="alert alert-success alert-dismissible fade show fs-5 mt-4" role="alert">
             Successfully added account!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php endif; ?>
 
     <?php if (isset($_GET["account_success_edit"])): ?>
-        <div class="alert alert-info mt-4 fs-5">
+        <div class="alert alert-info alert-dismissible fade show fs-5 mt-4" role="alert">
             Successfully edited account!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php endif; ?>
 
     <?php if (isset($_GET["account_success_delete"])): ?>
-        <div class="alert alert-danger mt-4 fs-5">
+        <div class="alert alert-danger alert-dismissible fade show fs-5 mt-4" role="alert">
             Successfully deleted account!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php endif; ?>
 

@@ -11,7 +11,6 @@
         </div>
     <?php endif; ?>
 
-    <!-- TODO: add alert for deleting an account -->
     <table class="table table-bordered table-striped mt-4 fs-5">
         <thead>
             <th scope="col">ID</th>

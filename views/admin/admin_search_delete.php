@@ -29,7 +29,7 @@
     </table>
 
     <div class="mt-4">
-        <label for="feedbackText" class="form-label fs-5">Feedback</label>
+        <label for="feedbackText" class="form-label fs-4">Feedback</label>
         <textarea class="form-control form-control-lg" id="feedbackText" style="height: 12rem;" disabled><?= $feedback["feedback"]; ?></textarea>
     </div>
 

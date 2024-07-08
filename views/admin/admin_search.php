@@ -1,6 +1,14 @@
 <?php require_once "includes/admin_header.php"; ?>
 
 <div class="container mt-4">
+
+    <?php if (isset($_GET["delete_success"])): ?>
+        <div class="alert alert-danger alert-dismissible fade show fs-5" role="alert">
+            Successfully deleted feedback!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
     <form action="/admin/search" method="GET">
         <div class="d-flex gap-2 my-4">
             <input type="text" name="search_text" class="form-control form-control-lg w-75" placeholder="Enter text here" value="<?= $_GET["search_text"] ?? ""; ?>">

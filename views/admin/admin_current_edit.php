@@ -2,7 +2,7 @@
 
 <div class="container mt-4">
     <h1>Edit Account</h1>
-    <form action="/admin/accounts/edit_account" method="POST">
+    <form action="/admin/account/edit_account" method="POST">
         <div class="alert alert-warning fs-5">
             Applying changes will logout account!
         </div>
@@ -78,8 +78,7 @@
             <hr>
 
             <button class="btn btn-success btn-lg">Apply Changes</button>
-            <a href="/admin/dashboard" class="btn btn-secondary btn-lg">Cancel</a>
-
+            <a href="/admin/account" class="btn btn-secondary btn-lg">Cancel</a>
     </form>
 </div>
 

@@ -154,6 +154,24 @@ class AdminController
         );
     }
 
+    // Current admin account credentials page
+    public function admin_account(Router $router)
+    {
+        session_start();
+
+        if (!$_SESSION["isLoggedIn"]) {
+            header("Location: /");
+            exit;
+        }
+
+        $router->renderView(
+            "admin/admin_account",
+            [
+                "currentPage" => "adminAccount",
+            ]
+        );
+    }
+
     public function admin_search_details(Router $router)
     {
         session_start();
@@ -254,7 +272,7 @@ class AdminController
             $feedback->load($feedbackData);
             $feedback->delete();
 
-            header("Location: /admin/search");
+            header("Location: /admin/search?delete_success=true");
             exit;
         }
 
@@ -360,6 +378,12 @@ class AdminController
             $errors = $admin->editAdmin();
 
             if (empty($errors)) {
+
+                if ($admin->id == $_SESSION["userLoginInfo"]["id"]) {
+                    // If we apply edits to current account, logout account
+                    $this->admin_logout($router);
+                }
+
                 // If there are no errors, return to the accounts page
                 header("Location: /admin/accounts?account_success_edit=true");
                 exit;
@@ -388,6 +412,7 @@ class AdminController
         $router->renderView(
             "admin/admin_edit",
             [
+                "currentPage" => "adminAccount",
                 "adminData" => $adminData,
                 "errors" => $errors
             ]
@@ -450,7 +475,7 @@ class AdminController
         $router->renderView(
             "admin/admin_current_edit",
             [
-                "currentPage" => "adminAccountEdit",
+                "currentPage" => "adminAccount",
                 "adminData" => $adminData,
                 "errors" => $errors
             ]
@@ -479,8 +504,7 @@ class AdminController
 
             // If the current user is the one being deleted, return to index
             if ($_SESSION["userLoginInfo"]["id"] == $_POST["id"]) {
-                header("Location: /");
-                exit;
+                $this->admin_logout($router);
             }
 
             header("Location: /admin/accounts?account_success_delete=true");
@@ -492,7 +516,38 @@ class AdminController
         $router->renderView(
             "admin/admin_delete",
             [
+                "currentPage" => "adminAccount",
                 "adminData" => $adminData
+            ]
+        );
+    }
+
+    public function admin_current_delete(Router $router)
+    {
+        session_start();
+
+        if (!$_SESSION["isLoggedIn"]) {
+            header("Location: /");
+            exit;
+        }
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $admin = new Admin();
+            $admin->load($_POST);
+            $admin->deleteAdmin();
+
+            // After deleting the current account, logout and go back to index
+            if ($_SESSION["userLoginInfo"]["id"] == $_POST["id"]) {
+                $this->admin_logout($router);
+            }
+
+            header("Location: /admin/accounts?account_success_delete=true");
+        }
+
+        $router->renderView(
+            "admin/admin_current_delete",
+            [
+                "currentPage" => "adminAccount",
             ]
         );
     }

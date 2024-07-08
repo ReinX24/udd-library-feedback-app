@@ -155,11 +155,14 @@ class Admin
             $errors["usernameTakenError"] = "Username already taken.";
         }
 
-        // Get the account with the same id
-        $accountData = $this->db->getAdminById($this->id);
-
-        // Checks if the password is the same with the account
-        if ($this->password && !password_verify($this->password, $_SESSION["userLoginInfo"]["password"])) {
+        // Checks if the password is the same with the currently logged in account
+        if (
+            $this->password
+            && !password_verify(
+                $this->password,
+                $_SESSION["userLoginInfo"]["password"]
+            )
+        ) {
             $errors["wrongPasswordError"] = "Wrong password!";
         }
 
@@ -198,6 +201,7 @@ class Admin
 
     public function deleteAdmin()
     {
+        // TODO: make it where the admin account is non deleteable
         $this->db->deleteAdminAccount($this);
     }
 

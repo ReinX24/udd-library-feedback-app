@@ -18,7 +18,7 @@
                         <a class="nav-link <?= $currentPage == "adminAccounts" ? "active" : ""; ?>" href="/admin/accounts">Admin Accounts</a>
                     </li>
                     <li>
-                        <a class="nav-link <?= $currentPage == "adminAccountEdit" ? "active" : ""; ?>" href="/admin/accounts/edit_account">Edit Account</a>
+                        <a class="nav-link <?= $currentPage == "adminAccount" ? "active" : ""; ?>" href="/admin/account">Account</a>
                     </li>
                 </ul>
                 <a href="/admin/logout" class="btn btn-danger btn-lg">Logout</a>

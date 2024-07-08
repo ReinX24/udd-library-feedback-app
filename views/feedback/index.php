@@ -1,10 +1,10 @@
 <?php require_once "includes/feedback_header.php"; ?>
 
 <?php
-session_start();
-echo "<pre>";
-var_dump($_SESSION);
-echo "</pre>";
+// session_start();
+// echo "<pre>";
+// var_dump($_SESSION);
+// echo "</pre>";
 ?>
 
 <div class="container my-5">

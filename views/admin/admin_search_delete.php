@@ -36,7 +36,7 @@
     <div class="d-flex gap-2 mt-4">
         <?php if ($_SESSION["userLoginInfo"]["master_account"]): ?>
             <form action="/admin/search/delete" method="POST">
-                <input type="hidden" name="feedbackId" value="<?= $feedback["id"]; ?>">
+                <input type="hidden" name="id" value="<?= $feedback["id"]; ?>">
                 <button type="submit" class="btn btn-danger btn-lg">Delete</button>
             </form>
         <?php endif; ?>

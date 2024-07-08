@@ -3,9 +3,16 @@
 <div class="container mt-4">
     <h1>Are you sure you want delete the current account?</h1>
     <hr>
-    <div class="alert alert-danger mt-4 fs-5">
-        This will delete the current account permanently!
-    </div>
+    <?php if (isset($errors["adminDeleteDenied"])): ?>
+        <div class="alert alert-danger mt-4 fs-5">
+            Cannot delete admin account!
+        </div>
+    <?php else: ?>
+        <div class="alert alert-danger mt-4 fs-5">
+            This will delete the current account permanently!
+        </div>
+    <?php endif; ?>
+
     <table class="table table-bordered table-striped mt-4 fs-5">
         <thead>
             <th scope="col">ID</th>

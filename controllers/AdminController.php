@@ -110,68 +110,6 @@ class AdminController
         );
     }
 
-    public function admin_logout(Router $router)
-    {
-        session_start();
-
-        if (!$_SESSION["isLoggedIn"]) {
-            header("Location: /");
-            exit;
-        }
-
-        // Destroy all session variables and return to index page
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            session_start();
-
-            session_unset();
-            session_destroy();
-
-            header("Location: /");
-            exit;
-        }
-
-        $router->renderView("admin/admin_logout");
-    }
-
-    public function admin_accounts(Router $router)
-    {
-        session_start();
-
-        if (!$_SESSION["isLoggedIn"]) {
-            header("Location: /");
-            exit;
-        }
-
-        $admin = new Admin();
-        $adminData = $admin->getAdminAccounts();
-
-        $router->renderView(
-            "admin/admin_accounts",
-            [
-                "currentPage" => "adminAccounts",
-                "adminData" => $adminData
-            ]
-        );
-    }
-
-    // Current admin account credentials page
-    public function admin_account(Router $router)
-    {
-        session_start();
-
-        if (!$_SESSION["isLoggedIn"]) {
-            header("Location: /");
-            exit;
-        }
-
-        $router->renderView(
-            "admin/admin_account",
-            [
-                "currentPage" => "adminAccount",
-            ]
-        );
-    }
-
     public function admin_search_details(Router $router)
     {
         session_start();
@@ -262,12 +200,14 @@ class AdminController
             header("Location: /admin/dashboard");
         }
 
+        $feedbackData = [
+            "id" => ""
+        ];
+
         $feedback = new Feedback();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $feedbackData = [
-                "id" => $_POST["feedbackId"]
-            ];
+            $feedbackData["id"] = $_POST["id"];
 
             $feedback->load($feedbackData);
             $feedback->delete();
@@ -287,6 +227,28 @@ class AdminController
         );
     }
 
+    public function admin_accounts(Router $router)
+    {
+        session_start();
+
+        if (!$_SESSION["isLoggedIn"]) {
+            header("Location: /");
+            exit;
+        }
+
+        $admin = new Admin();
+        $adminData = $admin->getAdminAccounts();
+
+        $router->renderView(
+            "admin/admin_accounts",
+            [
+                "currentPage" => "adminAccounts",
+                "adminData" => $adminData
+            ]
+        );
+    }
+
+    // Adding an admin account, can only be used for master accounts
     public function admin_add(Router $router)
     {
         session_start();
@@ -336,6 +298,7 @@ class AdminController
         );
     }
 
+    // Editing an admin account, can only be used for master accounts
     public function admin_edit(Router $router)
     {
         session_start();
@@ -419,6 +382,70 @@ class AdminController
         );
     }
 
+    // Deleting an admin account as a master account
+    public function admin_delete(Router $router)
+    {
+        session_start();
+
+        if (!$_SESSION["isLoggedIn"]) {
+            header("Location: /");
+            exit;
+        }
+
+        if (!$_SESSION["userLoginInfo"]["master_account"]) {
+            header("Location: /admin/dashboard");
+        }
+
+        $adminData = [
+            "id" => ""
+        ];
+
+        $admin = new Admin();
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $adminData["id"] = $_POST["id"];
+
+            $admin->load($adminData);
+            $admin->deleteAdmin();
+
+            // If the current user is the one being deleted, return to index
+            if ($_SESSION["userLoginInfo"]["id"] == $_POST["id"]) {
+                $this->admin_logout($router);
+            }
+
+            header("Location: /admin/accounts?account_success_delete=true");
+        }
+
+        $id = (int) $_GET["id"];
+        $adminData = $admin->getAdminAccountById($id);
+
+        $router->renderView(
+            "admin/admin_delete",
+            [
+                "currentPage" => "adminAccount",
+                "adminData" => $adminData
+            ]
+        );
+    }
+
+    // Current admin account credentials page
+    public function admin_account(Router $router)
+    {
+        session_start();
+
+        if (!$_SESSION["isLoggedIn"]) {
+            header("Location: /");
+            exit;
+        }
+
+        $router->renderView(
+            "admin/admin_account",
+            [
+                "currentPage" => "adminAccount",
+            ]
+        );
+    }
+
     // Edit the currently logged in admin account
     public function admin_current_edit(Router $router)
     {
@@ -482,46 +509,6 @@ class AdminController
         );
     }
 
-    // Deleting an admin account as a master account
-    public function admin_delete(Router $router)
-    {
-        session_start();
-
-        if (!$_SESSION["isLoggedIn"]) {
-            header("Location: /");
-            exit;
-        }
-
-        if (!$_SESSION["userLoginInfo"]["master_account"]) {
-            header("Location: /admin/dashboard");
-        }
-
-        $admin = new Admin();
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $admin->load($_POST);
-            $admin->deleteAdmin();
-
-            // If the current user is the one being deleted, return to index
-            if ($_SESSION["userLoginInfo"]["id"] == $_POST["id"]) {
-                $this->admin_logout($router);
-            }
-
-            header("Location: /admin/accounts?account_success_delete=true");
-        }
-
-        $id = (int) $_GET["id"];
-        $adminData = $admin->getAdminAccountById($id);
-
-        $router->renderView(
-            "admin/admin_delete",
-            [
-                "currentPage" => "adminAccount",
-                "adminData" => $adminData
-            ]
-        );
-    }
-
     public function admin_current_delete(Router $router)
     {
         session_start();
@@ -531,24 +518,56 @@ class AdminController
             exit;
         }
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $admin = new Admin();
-            $admin->load($_POST);
-            $admin->deleteAdmin();
+        $errors = [];
 
-            // After deleting the current account, logout and go back to index
-            if ($_SESSION["userLoginInfo"]["id"] == $_POST["id"]) {
+        $adminData = [
+            "id" => "",
+        ];
+
+        $admin = new Admin();
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $adminData["id"] = $_SESSION["userLoginInfo"]["id"];
+
+            $admin->load($adminData);
+            $errors = $admin->deleteAdmin();
+
+            if (empty($errors)) {
+                // After deleting the current account, logout and go back to index
                 $this->admin_logout($router);
             }
-
-            header("Location: /admin/accounts?account_success_delete=true");
         }
 
         $router->renderView(
             "admin/admin_current_delete",
             [
                 "currentPage" => "adminAccount",
+                "errors" => $errors
             ]
         );
     }
+
+    public function admin_logout(Router $router)
+    {
+        session_start();
+
+        if (!$_SESSION["isLoggedIn"]) {
+            header("Location: /");
+            exit;
+        }
+
+        // Destroy all session variables and return to index page
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            session_start();
+
+            session_unset();
+            session_destroy();
+
+            header("Location: /");
+            exit;
+        }
+
+        $router->renderView("admin/admin_logout");
+    }
+
 }

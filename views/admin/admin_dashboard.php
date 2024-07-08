@@ -5,9 +5,13 @@
         <div class="p-5 text-center bg-body-tertiary rounded-3">
 
             <?php if ($_SESSION["userLoginInfo"]["master_account"]): ?>
-                <h1 class="text-body-emphasis">Welcome, <span class="text-primary"><?= $_SESSION["userLoginInfo"]["username"]; ?></span></h1>
+                <div class="alert alert-primary">
+                    <h1 class="text-body-emphasis">Welcome, <span class="text-primary-emphasis"><?= $_SESSION["userLoginInfo"]["username"]; ?></span></h1>
+                </div>
             <?php else: ?>
-                <h1 class="text-body-emphasis">Welcome, <span class="text-secondary"><?= $_SESSION["userLoginInfo"]["username"]; ?></span></h1>
+                <div class="alert alert-secondary">
+                    <h1 class="text-body-emphasis">Welcome, <span class="text-secondary-emphasis"><?= $_SESSION["userLoginInfo"]["username"]; ?></span></h1>
+                </div>
             <?php endif; ?>
 
             <img src="/images/udd_logo.png" class="mb-4" width="200" height="200">

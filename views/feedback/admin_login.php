@@ -10,12 +10,14 @@
         </div>
 
         <?php if (isset($errors["usernameEmptyError"])): ?>
-            <div class="alert alert-danger fs-5">
+            <div class="alert alert-danger alert-dismissible fade show fs-5" role="alert">
                 <?= $errors["usernameEmptyError"]; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php elseif (isset($errors["userNotFoundError"])): ?>
-            <div class="alert alert-danger fs-5">
+            <div class="alert alert-danger alert-dismissible fade show fs-5" role="alert">
                 <?= $errors["userNotFoundError"]; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php endif; ?>
 
@@ -25,12 +27,14 @@
         </div>
 
         <?php if (isset($errors["passwordEmptyError"])): ?>
-            <div class="alert alert-danger fs-5">
+            <div class="alert alert-danger alert-dismissible fade show fs-5" role="alert">
                 <?= $errors["passwordEmptyError"]; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php elseif (isset($errors["wrongPasswordError"])): ?>
-            <div class="alert alert-danger fs-5">
+            <div class="alert alert-danger alert-dismissible fade show fs-5" role="alert">
                 <?= $errors["wrongPasswordError"]; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php endif; ?>
 
@@ -40,12 +44,14 @@
         </div>
 
         <?php if (isset($errors["passwordsMismatchError"])): ?>
-            <div class="alert alert-danger fs-5">
+            <div class="alert alert-danger alert-dismissible fade show fs-5" role="alert">
                 <?= $errors["passwordsMismatchError"]; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php elseif (isset($errors["passwordRepeatError"])): ?>
-            <div class="alert alert-danger fs-5">
+            <div class="alert alert-danger alert-dismissible fade show fs-5" role="alert">
                 <?= $errors["passwordRepeatError"]; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php endif; ?>
 

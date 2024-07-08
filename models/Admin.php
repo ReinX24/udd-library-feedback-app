@@ -201,8 +201,19 @@ class Admin
 
     public function deleteAdmin()
     {
-        // TODO: make it where the admin account is non deleteable
-        $this->db->deleteAdminAccount($this);
+        $errors = [];
+
+        // DONE: make it where the admin account is non deleteable
+        // Cannot delete the admin account with an id of 1
+        if ($this->id == 1) {
+            $errors["adminDeleteDenied"] = "Cannot delete admin account!";
+        }
+
+        if (empty($errors)) {
+            $this->db->deleteAdminAccount($this);
+        }
+
+        return $errors;
     }
 
     public function getAdminAccounts()

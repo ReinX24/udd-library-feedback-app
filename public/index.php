@@ -31,15 +31,17 @@ $router->addPostRoute("/admin/search/edit", [AdminController::class, "admin_sear
 $router->addGetRoute("/admin/search/delete", [AdminController::class, "admin_search_delete"]);
 $router->addPostRoute("/admin/search/delete", [AdminController::class, "admin_search_delete"]);
 
+// View all existing accounts
 $router->addGetRoute("/admin/accounts", [AdminController::class, "admin_accounts"]);
 
+// View currently logged in account details
 $router->addGetRoute("/admin/account", [AdminController::class, "admin_account"]);
 
-// Editing the current account of the user
+// Editing the currently logged in account
 $router->addGetRoute("/admin/account/edit_account", [AdminController::class, "admin_current_edit"]);
 $router->addPostRoute("/admin/account/edit_account", [AdminController::class, "admin_current_edit"]);
 
-// Deleting the current account of the user
+// Deleting the current account of the logged in account
 $router->addGetRoute("/admin/account/delete_account", [AdminController::class, "admin_current_delete"]);
 $router->addPostRoute("/admin/account/delete_account", [AdminController::class, "admin_current_delete"]);
 

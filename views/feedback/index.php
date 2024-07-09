@@ -18,7 +18,7 @@
         <div class="d-inline-flex gap-2 mb-5">
             <a href="/feedback/create">
                 <button class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button">
-                    Submit Suggestion or Feeback
+                    Submit Feeback
                 </button>
             </a>
             <a href="/feedback/admin_login">

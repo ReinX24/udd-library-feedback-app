@@ -48,12 +48,7 @@ class AdminController
 
     public function admin_dashboard(Router $router)
     {
-        session_start();
-
-        if (!$_SESSION["isLoggedIn"]) {
-            header("Location: /");
-            exit;
-        }
+        $this->check_logged_in();
 
         $router->renderView(
             "admin/admin_dashboard",
@@ -65,12 +60,7 @@ class AdminController
 
     public function admin_search(Router $router)
     {
-        session_start();
-
-        if (!$_SESSION["isLoggedIn"]) {
-            header("Location: /");
-            exit;
-        }
+        $this->check_logged_in();
 
         $feedback = new Feedback();
         $feedbackData = $feedback->getAllFeedback();
@@ -112,12 +102,7 @@ class AdminController
 
     public function admin_search_details(Router $router)
     {
-        session_start();
-
-        if (!$_SESSION["isLoggedIn"]) {
-            header("Location: /");
-            exit;
-        }
+        $this->check_logged_in();
 
         $feedback = new Feedback();
         $feedbackData = $feedback->getFeedbackById((int) $_GET["feedbackId"]);
@@ -133,21 +118,9 @@ class AdminController
 
     public function admin_search_edit(Router $router)
     {
-        session_start();
-
-        if (!$_SESSION["isLoggedIn"]) {
-            header("Location: /");
-            exit;
-        }
-
-        if (!$_SESSION["userLoginInfo"]["master_account"]) {
-            header("Location: /admin/dashboard");
-        }
-
-        $feedback = new Feedback();
+        $this->check_master_logged_in();
 
         $errors = [];
-
         $feedbackData = [
             "id" => "",
             "name" => "",
@@ -156,6 +129,8 @@ class AdminController
             "is_edited" => "",
             "created_at" => ""
         ];
+
+        $feedback = new Feedback();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $feedbackData["id"] = (int) $_POST["id"];
@@ -189,16 +164,7 @@ class AdminController
 
     public function admin_search_delete(Router $router)
     {
-        session_start();
-
-        if (!$_SESSION["isLoggedIn"]) {
-            header("Location: /");
-            exit;
-        }
-
-        if (!$_SESSION["userLoginInfo"]["master_account"]) {
-            header("Location: /admin/dashboard");
-        }
+        $this->check_master_logged_in();
 
         $feedbackData = [
             "id" => ""
@@ -229,12 +195,7 @@ class AdminController
 
     public function admin_accounts(Router $router)
     {
-        session_start();
-
-        if (!$_SESSION["isLoggedIn"]) {
-            header("Location: /");
-            exit;
-        }
+        $this->check_logged_in();
 
         $admin = new Admin();
         $adminData = $admin->getAdminAccounts();
@@ -251,17 +212,7 @@ class AdminController
     // Adding an admin account, can only be used for master accounts
     public function admin_add(Router $router)
     {
-        session_start();
-
-        if (!$_SESSION["isLoggedIn"]) {
-            header("Location: /");
-            exit;
-        }
-
-        // Return the user to the admin dashboard if they are not a master account
-        if (!$_SESSION["userLoginInfo"]["master_account"]) {
-            header("Location: /admin/dashboard");
-        }
+        $this->check_master_logged_in();
 
         $errors = [];
 
@@ -301,17 +252,7 @@ class AdminController
     // Editing an admin account, can only be used for master accounts
     public function admin_edit(Router $router)
     {
-        session_start();
-
-        if (!$_SESSION["isLoggedIn"]) {
-            header("Location: /");
-            exit;
-        }
-
-        // Return the user to the admin dashboard if they are not a master account
-        if (!$_SESSION["userLoginInfo"]["master_account"]) {
-            header("Location: /admin/dashboard");
-        }
+        $this->check_master_logged_in();
 
         $errors = [];
 
@@ -341,13 +282,11 @@ class AdminController
             $errors = $admin->editAdmin();
 
             if (empty($errors)) {
-
+                // If we apply edits to current account, logout account
                 if ($admin->id == $_SESSION["userLoginInfo"]["id"]) {
-                    // If we apply edits to current account, logout account
                     $this->admin_logout($router);
                 }
-
-                // If there are no errors, return to the accounts page
+                // If the edited account is not the current account
                 header("Location: /admin/accounts?account_success_edit=true");
                 exit;
             }
@@ -385,16 +324,7 @@ class AdminController
     // Deleting an admin account as a master account
     public function admin_delete(Router $router)
     {
-        session_start();
-
-        if (!$_SESSION["isLoggedIn"]) {
-            header("Location: /");
-            exit;
-        }
-
-        if (!$_SESSION["userLoginInfo"]["master_account"]) {
-            header("Location: /admin/dashboard");
-        }
+        $this->check_master_logged_in();
 
         $adminData = [
             "id" => ""
@@ -431,12 +361,7 @@ class AdminController
     // Current admin account credentials page
     public function admin_account(Router $router)
     {
-        session_start();
-
-        if (!$_SESSION["isLoggedIn"]) {
-            header("Location: /");
-            exit;
-        }
+        $this->check_logged_in();
 
         $router->renderView(
             "admin/admin_account",
@@ -449,12 +374,7 @@ class AdminController
     // Edit the currently logged in admin account
     public function admin_current_edit(Router $router)
     {
-        session_start();
-
-        if (!$_SESSION["isLoggedIn"]) {
-            header("Location: /");
-            exit;
-        }
+        $this->check_logged_in();
 
         $errors = [];
 
@@ -468,13 +388,10 @@ class AdminController
             "master_account" => ""
         ];
 
-        // Get the id of the currently logged in user
-        $id = $_SESSION["userLoginInfo"]["id"];
-
         $admin = new Admin();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $adminData["id"] = $id;
+            $adminData["id"] = $_SESSION["userLoginInfo"]["id"];
             $adminData["username"] = $_POST["username"];
             $adminData["password"] = $_POST["password"];
             $adminData["changePassword"] = isset($_POST["changePassword"]);
@@ -490,7 +407,6 @@ class AdminController
             if (empty($errors)) {
                 // If there are no errors, logout the current account
                 $this->admin_logout($router);
-                exit;
             }
         }
 
@@ -511,12 +427,7 @@ class AdminController
 
     public function admin_current_delete(Router $router)
     {
-        session_start();
-
-        if (!$_SESSION["isLoggedIn"]) {
-            header("Location: /");
-            exit;
-        }
+        $this->check_logged_in();
 
         $errors = [];
 
@@ -549,12 +460,7 @@ class AdminController
 
     public function admin_logout(Router $router)
     {
-        session_start();
-
-        if (!$_SESSION["isLoggedIn"]) {
-            header("Location: /");
-            exit;
-        }
+        $this->check_logged_in();
 
         // Destroy all session variables and return to index page
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -568,6 +474,27 @@ class AdminController
         }
 
         $router->renderView("admin/admin_logout");
+    }
+
+    // Starts the session and checks if the user is logged in
+    public function check_logged_in()
+    {
+        session_start();
+
+        if (!$_SESSION["isLoggedIn"]) {
+            header("Location: /");
+            exit;
+        }
+    }
+
+    // Checks if the current logged in account is a master account
+    public function check_master_logged_in()
+    {
+        $this->check_logged_in();
+
+        if (!$_SESSION["userLoginInfo"]["master_account"]) {
+            header("Location: /admin/dashboard");
+        }
     }
 
 }

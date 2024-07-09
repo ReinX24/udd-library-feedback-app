@@ -1,0 +1,20 @@
+Feedback Page
+- Submit Feedback with name
+- Submit Feedback anonymously
+
+Admin Page
+- Admin login
+
+- Admin search
+- Admin search details
+- Admin search edit
+- Admin search delete
+
+- Admin change username
+- Admin change password
+
+- Admin add (as master account)
+- Admin edit (as master account)
+- Admin delete (as master account)
+
+- Admin logout

@@ -96,3 +96,77 @@ Hosts location:
 After adding these configurations, restart the Apache and MySQL server and type in `uddfeedback.local` in the web browser to access the webpage.
 
 ![uddfeedback.local](readme_images/uddfeedback.local.png)
+
+## Pages
+
+### Index
+
+![feedback_index](readme_images/index.png)
+
+### Submit Feedback
+
+![feedback_submit](readme_images/index.png)
+
+### Login Admin
+
+![feedback_admin_login](readme_images/feedback/admin_login.png)
+
+### Admin Dashboard (Admin Account)
+
+![admin_dashboard](readme_images/admin/admin_dashboard.png)
+
+### Admin Search (Admin Account)
+
+![admin_search](readme_images/admin/admin_search.png)
+
+### Admin Search Details (Admin Account)
+
+![admin_search_details](readme_images/admin/admin_search_details.png)
+
+### Admin Accounts (Admin Account)
+
+![admin_accounts](readme_images/admin/admin_accounts.png)
+
+### Admin Account (Admin Account)
+
+![admin_account](readme_images/admin/admin_account.png)
+
+### Admin Account Edit (Admin Account)
+
+![admin_account_edit](readme_images/admin/admin_edit.png)
+
+### Admin Account Delete (Admin Account)
+
+![admin_account_delete](readme_images/admin/admin_delete.png)
+
+### Admin Search Details (Master Account)
+
+![master_search_details](readme_images/admin/master_search_details.png)
+
+### Admin Search Edit (Master Account)
+
+![master_search_edit](readme_images/admin/master_search_edit.png)
+
+### Admin Search Delete (Master Account)
+
+![master_search_delete](readme_images/admin/master_search_delete.png)
+
+### Admin Accounts (Master Account)
+
+![master_admin_accounts](readme_images/admin/master_accounts.png)
+
+### Admin Accounts Add (Master Account)
+
+![master_admin_accounts_add](readme_images/admin/master_accounts_add.png)
+
+### Admin Accounts Edit (Master Account)
+
+![master_admin_accounts_edit](readme_images/admin/master_accounts_edit.png)
+
+### Admin Accounts Delete (Master Account)
+
+![master_admin_accounts_delete](readme_images/admin/master_accounts_delete.png)
+
+### Admin Logout
+
+![admin_logout](readme_images/admin/admin_logout.png)

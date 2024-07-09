@@ -243,8 +243,9 @@ class AdminController
         $router->renderView(
             "admin/admin_add",
             [
-                "errors" => $errors,
-                "adminData" => $adminData
+                "currentPage" => "adminAccounts",
+                "adminData" => $adminData,
+                "errors" => $errors
             ]
         );
     }
@@ -295,6 +296,7 @@ class AdminController
             $router->renderView(
                 "admin/admin_edit",
                 [
+                    "currentPage" => "adminAccounts",
                     "adminData" => $adminData,
                     "errors" => $errors
                 ]
@@ -314,7 +316,7 @@ class AdminController
         $router->renderView(
             "admin/admin_edit",
             [
-                "currentPage" => "adminAccount",
+                "currentPage" => "adminAccounts",
                 "adminData" => $adminData,
                 "errors" => $errors
             ]
@@ -352,7 +354,7 @@ class AdminController
         $router->renderView(
             "admin/admin_delete",
             [
-                "currentPage" => "adminAccount",
+                "currentPage" => "adminAccounts",
                 "adminData" => $adminData
             ]
         );

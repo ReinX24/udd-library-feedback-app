@@ -12,7 +12,7 @@
                         <a class="nav-link <?= $currentPage == "adminIndex" ? "active" : ""; ?>" href="/admin/dashboard">Home</a>
                     </li>
                     <li>
-                        <a class="nav-link <?= $currentPage == "adminSearch" ? "active" : ""; ?>" href="/admin/search">Search</a>
+                        <a class="nav-link <?= $currentPage == "adminSearch" ? "active" : ""; ?>" href="/admin/search">Search Feedback</a>
                     </li>
                     <li>
                         <a class="nav-link <?= $currentPage == "adminAccounts" ? "active" : ""; ?>" href="/admin/accounts">Admin Accounts</a>

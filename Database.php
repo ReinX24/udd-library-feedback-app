@@ -6,6 +6,7 @@ namespace app;
 
 use app\models\Feedback;
 use app\models\Admin;
+use app\models\Log;
 use \PDO;
 
 class Database
@@ -26,6 +27,7 @@ class Database
         self::$db = $this;
     }
 
+    //* START OF ADMIN DATABASE FUNCTIONS
     public function getAdminDataByUsername(Admin $adminData)
     {
         $getAdminQuery =
@@ -58,6 +60,92 @@ class Database
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getAdminAccounts()
+    {
+        $adminAccountQuery =
+            "SELECT
+                *
+            FROM
+                admin_accounts";
+
+        $statement = $this->pdo->prepare($adminAccountQuery);
+
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function addAdminAccount(Admin $adminData)
+    {
+        $addAccountQuery =
+            "INSERT INTO
+                admin_accounts (username, password, master_account)
+            VALUES
+                (:username, :password, :master_account)";
+
+        $statement = $this->pdo->prepare($addAccountQuery);
+
+        $statement->bindValue(":username", $adminData->username);
+        $statement->bindValue(":password", password_hash($adminData->password, PASSWORD_DEFAULT));
+        $statement->bindValue(":master_account", $adminData->master_account);
+
+        $statement->execute();
+    }
+
+    public function editAdminAccount(Admin $adminData)
+    {
+        // Set password in query if change password is enabled
+        if ($adminData->changePassword) {
+            $editAccountQuery =
+                "UPDATE 
+                    admin_accounts
+                SET
+                    username = :username,
+                    password = :password,
+                    master_account = :master_account
+                WHERE
+                    id = :id";
+        } else {
+            $editAccountQuery =
+                "UPDATE 
+                    admin_accounts
+                SET
+                    username = :username,
+                    master_account = :master_account
+                WHERE
+                    id = :id";
+        }
+
+        $statement = $this->pdo->prepare($editAccountQuery);
+
+        $statement->bindValue(":username", $adminData->username);
+
+        // Change password if the user wants to change password
+        if ($adminData->changePassword) {
+            $statement->bindValue(":password", password_hash($adminData->passwordNew, PASSWORD_DEFAULT));
+        }
+
+        $statement->bindValue(":master_account", $adminData->master_account);
+
+        $statement->bindValue(":id", $adminData->id);
+
+        $statement->execute();
+    }
+
+    public function deleteAdminAccount(Admin $adminData)
+    {
+        $deleteAccountQuery = "DELETE FROM admin_accounts WHERE id = :id";
+
+        $statement = $this->pdo->prepare($deleteAccountQuery);
+
+        $statement->bindValue(":id", $adminData->id);
+
+        $statement->execute();
+    }
+    //* END OF ADMIN DATABASE FUNCTIONS
+
+
+    //* START OF FEEDBACK DATABASE FUNCTIONS
     public function getFeedback()
     {
         $getAllFeedback =
@@ -189,89 +277,6 @@ class Database
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getAdminAccounts()
-    {
-        $adminAccountQuery =
-            "SELECT
-                *
-            FROM
-                admin_accounts";
-
-        $statement = $this->pdo->prepare($adminAccountQuery);
-
-        $statement->execute();
-
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function addAdminAccount(Admin $adminData)
-    {
-        $addAccountQuery =
-            "INSERT INTO
-                admin_accounts (username, password, master_account)
-            VALUES
-                (:username, :password, :master_account)";
-
-        $statement = $this->pdo->prepare($addAccountQuery);
-
-        $statement->bindValue(":username", $adminData->username);
-        $statement->bindValue(":password", password_hash($adminData->password, PASSWORD_DEFAULT));
-        $statement->bindValue(":master_account", $adminData->master_account);
-
-        $statement->execute();
-    }
-
-    public function editAdminAccount(Admin $adminData)
-    {
-        // Set password in query if change password is enabled
-        if ($adminData->changePassword) {
-            $editAccountQuery =
-                "UPDATE 
-                    admin_accounts
-                SET
-                    username = :username,
-                    password = :password,
-                    master_account = :master_account
-                WHERE
-                    id = :id";
-        } else {
-            $editAccountQuery =
-                "UPDATE 
-                    admin_accounts
-                SET
-                    username = :username,
-                    master_account = :master_account
-                WHERE
-                    id = :id";
-        }
-
-        $statement = $this->pdo->prepare($editAccountQuery);
-
-        $statement->bindValue(":username", $adminData->username);
-
-        // Change password if the user wants to change password
-        if ($adminData->changePassword) {
-            $statement->bindValue(":password", password_hash($adminData->passwordNew, PASSWORD_DEFAULT));
-        }
-
-        $statement->bindValue(":master_account", $adminData->master_account);
-
-        $statement->bindValue(":id", $adminData->id);
-
-        $statement->execute();
-    }
-
-    public function deleteAdminAccount(Admin $adminData)
-    {
-        $deleteAccountQuery = "DELETE FROM admin_accounts WHERE id = :id";
-
-        $statement = $this->pdo->prepare($deleteAccountQuery);
-
-        $statement->bindValue(":id", $adminData->id);
-
-        $statement->execute();
-    }
-
     public function createFeedback(Feedback $feedback)
     {
         $createFeedbackQuery =
@@ -325,4 +330,6 @@ class Database
 
         $statement->execute();
     }
+    //* END OF FEEDBACK DATABASE FUNCTIONS
+
 }

@@ -1,5 +1,5 @@
 {
-    "name": "reinx/feedback_app_mvc_version",
+    "name": "reinx/udd-computer-lab-app",
     "autoload": {
         "psr-4": {
             "app\\": "./"

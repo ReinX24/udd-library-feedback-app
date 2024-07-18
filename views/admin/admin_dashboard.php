@@ -4,11 +4,11 @@
     <div class="container my-5">
         <div class="p-5 text-center bg-body-tertiary rounded-3">
 
-            <?php if ($_SESSION["userLoginInfo"]["master_account"]): ?>
+            <?php if ($_SESSION["userLoginInfo"]["master_account"]) : ?>
                 <div class="alert alert-primary">
                     <h1 class="text-body-emphasis">Welcome, <span class="text-primary-emphasis"><?= $_SESSION["userLoginInfo"]["username"]; ?></span></h1>
                 </div>
-            <?php else: ?>
+            <?php else : ?>
                 <div class="alert alert-secondary">
                     <h1 class="text-body-emphasis">Welcome, <span class="text-secondary-emphasis"><?= $_SESSION["userLoginInfo"]["username"]; ?></span></h1>
                 </div>

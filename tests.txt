@@ -1,20 +1,22 @@
-Feedback Page
-- Submit Feedback with name
-- Submit Feedback anonymously
+```Feedback Pages```
+- Create Feedback X
+- Feedback Error Triggers X
+- Admin Login X
+- Admin Login Error Triggers X
 
-Admin Page
-- Admin login
+```Admin Pages```
+- Search Text X
+- Search Month & Year X
+- Search Date X
+- Search Category X
 
-- Admin search
-- Admin search details
-- Admin search edit
-- Admin search delete
+- Edit Feedback X
+- Delete Feedback X
 
-- Admin change username
-- Admin change password
+- Create Other Account
+- Edit Other Account
+- Delete Other Account
+- Other Account Error Triggers
 
-- Admin add (as master account)
-- Admin edit (as master account)
-- Admin delete (as master account)
-
-- Admin logout
+- Edit Current Account
+- Delete Current Account

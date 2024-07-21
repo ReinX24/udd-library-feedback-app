@@ -12,6 +12,7 @@ class Feedback
     public ?string $name;
     public ?string $feedbackText;
     public ?string $category;
+    public ?string $created_at;
     private Database $db;
 
     /**
@@ -31,12 +32,14 @@ class Feedback
         $this->name = $feedbackData["name"] ?? null;
         $this->category = $feedbackData["category"] ?? null;
 
+        // TODO: debug creation with these
+        $this->feedbackText = $feedbackData["feedbackText"] ?? null;
+        $this->created_at = $feedbackData["created_at"] ?? null;
+
         // If the name is empty, set name as "Anonymous"
         if (empty($this->name)) {
             $this->name = "Anonymous";
         }
-
-        $this->feedbackText = $feedbackData["feedback"] ?? null; // required
     }
 
     /**
@@ -94,17 +97,17 @@ class Feedback
     /**
      * Get feedback from database with matching text.
      */
-    public function getFeedbackByText(string $searchText)
+    public function getFeedbackByText()
     {
-        return $this->db->getTextMatchFeedback($searchText);
+        return $this->db->getTextMatchFeedback($this->feedbackText);
     }
 
     /**
      * Get feedback by their month and year.
      */
-    public function getFeedbackByMonthAndYear(string $monthYearString)
+    public function getFeedbackByMonthAndYear()
     {
-        return $this->db->getMonthAndYearMatchFeedback($monthYearString);
+        return $this->db->getMonthAndYearMatchFeedback($this->created_at);
     }
 
     /**

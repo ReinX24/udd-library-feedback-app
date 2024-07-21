@@ -57,31 +57,37 @@ class AdminController
         );
     }
 
-    // Feedback search
+    //* FEEDBACK SEARCH
     public function admin_search(Router $router)
     {
         $this->check_logged_in();
 
         $feedback = new Feedback();
-        $feedbackData = $feedback->getAllFeedback();
+
+        $feedbackData = [
+            "feedbackText" => "",
+            "cateogory" => "",
+            "created_at"
+        ];
 
         if (isset($_GET["search_text"]) && !empty($_GET["search_text"])) {
             // Search by text
-            $feedbackData = $feedback->getFeedbackByText($_GET["search_text"] ?? "");
-        }
-
-        if (isset($_GET["search_month_and_year"]) && !empty($_GET["search_month_and_year"])) {
+            $feedbackData["feedbackText"] = $_GET["search_text"];
+            $feedback->load($feedbackData);
+            $feedbackData = $feedback->getFeedbackByText();
+        } elseif (isset($_GET["search_month_and_year"]) && !empty($_GET["search_month_and_year"])) {
             // Search by month and year
-            $feedbackData = $feedback->getFeedbackByMonthAndYear($_GET["search_month_and_year"]);
-        }
-
-        if (isset($_GET["search_date"]) && !empty($_GET["search_date"])) {
+            $feedbackData["created_at"] = $_GET["search_month_and_year"];
+            $feedback->load($feedbackData);
+            $feedbackData = $feedback->getFeedbackByMonthAndYear();
+        } elseif (isset($_GET["search_date"]) && !empty($_GET["search_date"])) {
             // Search by exact date
+            // TODO: load data into $feedback object before searching
             $feedbackData = $feedback->getFeedbackByExactDate($_GET["search_date"]);
-        }
-
-        if (isset($_GET["searchCategory"])) {
+        } elseif (isset($_GET["searchCategory"])) {
             $feedbackData = $feedback->getFeedbackByCategory($_GET["searchCategory"]);
+        } else {
+            $feedbackData = $feedback->getAllFeedback();
         }
 
         // Getting the current dates for placeholders
@@ -192,7 +198,7 @@ class AdminController
             ]
         );
     }
-    // End of Feedback search
+    //* END OF FEEDBACK SEARCH
 
     public function admin_accounts(Router $router)
     {

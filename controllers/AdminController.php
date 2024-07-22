@@ -66,7 +66,7 @@ class AdminController
 
         $feedbackData = [
             "feedbackText" => "",
-            "cateogory" => "",
+            "category" => "",
             "created_at"
         ];
 
@@ -82,11 +82,16 @@ class AdminController
             $feedbackData = $feedback->getFeedbackByMonthAndYear();
         } elseif (isset($_GET["search_date"]) && !empty($_GET["search_date"])) {
             // Search by exact date
-            // TODO: load data into $feedback object before searching
-            $feedbackData = $feedback->getFeedbackByExactDate($_GET["search_date"]);
+            $feedbackData["created_at"] = $_GET["search_date"];
+            $feedback->load($feedbackData);
+            $feedbackData = $feedback->getFeedbackByExactDate();
         } elseif (isset($_GET["searchCategory"])) {
-            $feedbackData = $feedback->getFeedbackByCategory($_GET["searchCategory"]);
+            // Search by category
+            $feedbackData["category"] = $_GET["searchCategory"];
+            $feedback->load($feedbackData);
+            $feedbackData = $feedback->getFeedbackByCategory();
         } else {
+            // Get all feedback from the database
             $feedbackData = $feedback->getAllFeedback();
         }
 
@@ -110,8 +115,16 @@ class AdminController
     {
         $this->check_logged_in();
 
+        $feedbackData = [
+            "id" => null
+        ];
+
+        $feedbackData["id"] = (int) $_GET["feedbackId"];
+
         $feedback = new Feedback();
-        $feedbackData = $feedback->getFeedbackById((int) $_GET["feedbackId"]);
+        $feedback->load($feedbackData);
+
+        $feedbackData = $feedback->getFeedbackById();
 
         $router->renderView(
             "admin/admin_search_details",
@@ -127,6 +140,7 @@ class AdminController
         $this->check_master_logged_in();
 
         $errors = [];
+
         $feedbackData = [
             "id" => "",
             "name" => "",
@@ -142,7 +156,7 @@ class AdminController
             $feedbackData["id"] = (int) $_POST["id"];
             $feedbackData["name"] = $_POST["name"];
             $feedbackData["category"] = $_POST["categorySelect"];
-            $feedbackData["feedback"] = $_POST["feedbackText"];
+            $feedbackData["feedbackText"] = $_POST["feedbackText"];
             $feedbackData["created_at"] = $_POST["created_at"];
 
             $feedback->load($feedbackData);
@@ -156,14 +170,19 @@ class AdminController
         }
 
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            $feedbackData = $feedback->getFeedbackById((int) $_GET["feedbackId"]);
+            $feedbackData["id"] = (int) $_GET["feedbackId"];
+
+            $feedback = new Feedback();
+            $feedback->load($feedbackData);
+
+            $feedbackData = $feedback->getFeedbackById();
         }
 
         $router->renderView(
             "admin/admin_search_edit",
             [
                 "errors" => $errors,
-                "feedback" => $feedbackData
+                "feedbackData" => $feedbackData
             ]
         );
     }
@@ -188,7 +207,12 @@ class AdminController
             exit;
         }
 
-        $feedbackData = $feedback->getFeedbackById((int) $_GET["feedbackId"]);
+        $feedbackData["id"] = (int) $_GET["feedbackId"];
+
+        $feedback = new Feedback();
+        $feedback->load($feedbackData);
+
+        $feedbackData = $feedback->getFeedbackById();
 
         $router->renderView(
             "admin/admin_search_delete",
@@ -200,6 +224,8 @@ class AdminController
     }
     //* END OF FEEDBACK SEARCH
 
+    // TODO: debug admin accounts functions
+    //* ADMIN ACCOUNTS 
     public function admin_accounts(Router $router)
     {
         $this->check_logged_in();
@@ -366,8 +392,13 @@ class AdminController
             ]
         );
     }
+    //* END OF ADMIN ACCOUNTS
 
-    // Current admin account credentials page
+    // TODO: debug admin account functions
+    //* ADMIN ACCOUNT (CURRENT ACCOUNT)
+    /** 
+     * Load current admin account credentials page
+     */
     public function admin_account(Router $router)
     {
         $this->check_logged_in();
@@ -466,6 +497,7 @@ class AdminController
             ]
         );
     }
+    //* END OF ADMIN ACCOUNT (CURRENT ACCOUNT)
 
     public function admin_logout(Router $router)
     {

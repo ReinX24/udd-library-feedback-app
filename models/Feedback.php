@@ -32,7 +32,7 @@ class Feedback
         $this->name = $feedbackData["name"] ?? null;
         $this->category = $feedbackData["category"] ?? null;
 
-        // TODO: debug creation with these
+        // TODO: debug creating a feedback with these added
         $this->feedbackText = $feedbackData["feedbackText"] ?? null;
         $this->created_at = $feedbackData["created_at"] ?? null;
 
@@ -113,29 +113,29 @@ class Feedback
     /**
      * Get feedback by their date (day, month, and year).
      */
-    public function getFeedbackByExactDate(string $date)
+    public function getFeedbackByExactDate()
     {
-        return $this->db->getDateFeedback($date);
+        return $this->db->getDateFeedback($this->created_at);
     }
 
     /**
      * Get feedback by their category.
      */
-    public function getFeedbackByCategory(string $category)
+    public function getFeedbackByCategory()
     {
         // If the user chooses "all", return all the feedback
-        if ($category == "all") {
+        if ($this->category == "all") {
             return $this->db->getFeedback();
         }
 
-        return $this->db->getFeedbackByCategory($category);
+        return $this->db->getFeedbackByCategory($this->category);
     }
 
     /**
      * Get feedback by their id.
      */
-    public function getFeedbackById(int $feedbackId)
+    public function getFeedbackById()
     {
-        return $this->db->getFeedbackById($feedbackId);
+        return $this->db->getFeedbackById($this->id);
     }
 }

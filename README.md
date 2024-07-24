@@ -3,12 +3,13 @@
 An application for storing feedback for the library of Universidad De Dagupan.
 
 ## Applications required
+
 - XAMPP
 - A web browser (ex. Firefox, Chrome, Edge)
 
 ## Installation
 
-Before starting, make sure you clone or download the repository to your local machine. Example below shows the repository files within the xampp/htdocs directory (recommended for virtual host configuration). 
+Before starting, make sure you clone or download the repository to your local machine. Example below shows the repository files within the xampp/htdocs directory (recommended for virtual host configuration).
 
 ![repo_directory](readme_images/repo_directory.png)
 
@@ -40,7 +41,7 @@ Open the terminal and change directory into the udd-library-feedback-app/public 
 
 `php -S localhost:8080`
 
-You can use any free port number on your local machine, in port 8080 is being used for demonstration purposes. Type in 'localhost:8080' in the browser to view the webpage.
+You can use any free port number on your local machine, port 8080 is being used for demonstration purposes. Type in 'localhost:8080' in the browser to view the webpage.
 
 ![database_admin_accounts](readme_images/index.png)
 
@@ -57,8 +58,8 @@ Password: uddlibrary
 
 Add virtual host to Apache(httpd.conf) file
 
-File location (assuming you are using Windows and it is installed in the C 
-drive): 
+File location (assuming you are using Windows and it is installed in the C
+drive):
 `C:\xampp\apache\conf\extra\httpd-vhosts.conf`
 
 Paste the following virtual host in the file, this virtual host assumes that you put your file inside the xampp/htdocs directory.
@@ -83,7 +84,7 @@ Paste the following virtual host in the file, this virtual host assumes that you
 
 Add the following to the hosts file in Windows
 
-Hosts location: 
+Hosts location:
 `C:\Windows\System32\drivers\etc\hosts`
 
 ```
@@ -105,7 +106,7 @@ After adding these configurations, restart the Apache and MySQL server and type 
 
 ### Submit Feedback
 
-![feedback_submit](readme_images/index.png)
+![feedback_submit](readme_images/feedback/submit_feedback.png)
 
 ### Login Admin
 

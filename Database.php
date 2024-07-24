@@ -247,7 +247,10 @@ class Database
             AND
                 MONTH(created_at) = :monthMatch
             AND
-                DAY(created_at) = :dayMatch";
+                DAY(created_at) = :dayMatch
+            ORDER BY
+                created_at
+            DESC";
 
         $yearMatch = date("Y", strtotime($dateString));
         $monthMatch = date("m", strtotime($dateString));
@@ -266,7 +269,16 @@ class Database
 
     public function getFeedbackByCategory(string $category)
     {
-        $getCategory = "SELECT * FROM feedback WHERE category = :category";
+        $getCategory =
+            "SELECT 
+                * 
+            FROM 
+                feedback 
+            WHERE 
+                category = :category
+            ORDER BY
+                created_at
+            DESC";
 
         $statement = $this->pdo->prepare($getCategory);
 

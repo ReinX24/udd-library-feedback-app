@@ -13,10 +13,10 @@
 - Edit Feedback X
 - Delete Feedback X
 
-- Create Other Account
-- Edit Other Account
-- Delete Other Account
-- Other Account Error Triggers
+- Create Other Account X
+- Edit Other Account X
+- Delete Other Account X
+- Other Account Error Triggers X
 
-- Edit Current Account
-- Delete Current Account
+- Edit Current Account X
+- Delete Current Account X

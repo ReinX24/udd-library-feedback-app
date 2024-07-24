@@ -28,13 +28,13 @@ class FeedbackController
         $errors = [];
         $feedbackData = [
             "name" => "",
-            "feedback" => "",
+            "feedbackText" => "",
             "category" => ""
         ];
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $feedbackData["name"] = $_POST["name"];
-            $feedbackData["feedback"] = $_POST["feedbackText"];
+            $feedbackData["feedbackText"] = $_POST["feedbackText"];
             $feedbackData["category"] = $_POST["categorySelect"];
 
             $feedback = new Feedback();

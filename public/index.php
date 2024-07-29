@@ -7,21 +7,22 @@ use app\Router;
 use app\controllers\FeedbackController;
 use app\controllers\AdminController;
 
-// FEEDBACK_APP
+//* FEEDBACK_APP
 $router = new Router();
 
+//* START OF FEEDBACK ROUTES
 $router->addGetRoute("/", [FeedbackController::class, "index"]);
 $router->addGetRoute("/feedback/create", [FeedbackController::class, "feedback_create"]);
 $router->addPostRoute("/feedback/create", [FeedbackController::class, "feedback_create"]);
 
 $router->addGetRoute("/feedback/admin_login", [AdminController::class, "admin_login"]);
 $router->addPostRoute("/feedback/admin_login", [AdminController::class, "admin_login"]);
-// END OF FEEDBACK ROUTES
+//* END OF FEEDBACK ROUTES
 
-// START OF ADMIN ROUTES
+//* START OF ADMIN ROUTES
 $router->addGetRoute("/admin/dashboard", [AdminController::class, "admin_dashboard"]);
 
-// START OF ADMIN ROUTES FOR FEEDBACK
+//* START OF ADMIN ROUTES SEARCH
 $router->addGetRoute("/admin/search", [AdminController::class, "admin_search"]);
 $router->addGetRoute("/admin/search/details", [AdminController::class, "admin_search_details"]);
 
@@ -32,10 +33,10 @@ $router->addPostRoute("/admin/search/edit", [AdminController::class, "admin_sear
 // Only master accounts can delete searches
 $router->addGetRoute("/admin/search/delete", [AdminController::class, "admin_search_delete"]);
 $router->addPostRoute("/admin/search/delete", [AdminController::class, "admin_search_delete"]);
-// END OF ADMIN ROUTES FOR FEEDBACK
+//* END OF ADMIN ROUTES FOR FEEDBACK
 
 
-// START OF ADMIN ROUTES FOR ACCOUNTS
+//* START OF ADMIN ROUTES FOR ACCOUNTS
 // View all existing accounts
 $router->addGetRoute("/admin/accounts", [AdminController::class, "admin_accounts"]);
 
@@ -61,11 +62,11 @@ $router->addPostRoute("/admin/accounts/delete", [AdminController::class, "admin_
 // Master accounts can edit accounts, can change username, password, and privileges
 $router->addGetRoute("/admin/accounts/edit", [AdminController::class, "admin_edit"]);
 $router->addPostRoute("/admin/accounts/edit", [AdminController::class, "admin_edit"]);
-// END OF ADMIN ROUTES FOR ACCOUNTS
+//* END OF ADMIN ROUTES FOR ACCOUNTS
 
 $router->addGetRoute("/admin/logout", [AdminController::class, "admin_logout"]);
 $router->addPostRoute("/admin/logout", [AdminController::class, "admin_logout"]);
-// END OF ADMIN ROUTES
+//* END OF ADMIN ROUTES
 
 // The router will resolve the URL and find the corresponding controller and method
 $router->resolve();

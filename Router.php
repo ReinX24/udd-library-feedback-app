@@ -12,18 +12,11 @@ class Router
     public array $getRoutes = [];
     public array $postRoutes = [];
 
-    // public Database $db;
-
-    /**
-     * Router constructor, instantiates database for GET and POST requests.
-     */
-    // public function __construct()
-    // {
-    // $this->db = new Database(); // instantiating database object
-    // }
-
     /**
      * Adds a GET route, the url (key) will store the controller and method.
+     * @param string $url
+     * @param array $fn
+     * @return void
      */
     public function addGetRoute(string $url, array $fn)
     {
@@ -32,6 +25,9 @@ class Router
 
     /**
      * Add a POST route, the url (key) will store the controller and method.
+     * @param string $url
+     * @param array $fn
+     * @return void
      */
     public function addPostRoute(string $url, array $fn)
     {
@@ -40,6 +36,7 @@ class Router
 
     /**
      * Getting the current REQUEST_URI and resolving to database.
+     * @return void
      */
     public function resolve()
     {
@@ -77,8 +74,11 @@ class Router
 
     /**
      * Rendering the view requested by our controller.
+     * @param string $view
+     * @param array $params
+     * @return void
      */
-    public function renderView($view, $params = [])
+    public function renderView(string $view, array $params = [])
     {
         // Converts key value array items into variables and values
         extract($params);

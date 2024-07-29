@@ -32,7 +32,7 @@ class Feedback
         $this->name = $feedbackData["name"] ?? null;
         $this->category = $feedbackData["category"] ?? null;
 
-        // TODO: debug creating a feedback with these added
+        // DONE: debug creating a feedback with these added
         $this->feedbackText = $feedbackData["feedbackText"] ?? null;
         $this->created_at = $feedbackData["created_at"] ?? null;
 
